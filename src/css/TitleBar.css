@@ -1,0 +1,35 @@
+.titlebar {
+    height: 30px;
+    background: #1f1f1f;
+    user-select: none;
+    position: fixed;
+    display: flex;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  
+.titlebar-buttons {
+    display: flex;
+    justify-self: flex-end;
+}
+
+.titlebar-button {
+    width: 30px;
+    height: 30px;
+}
+
+.titlebar-button:hover {
+    background: #3f3f3f;
+}
+
+.titlebar-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.bar {
+    flex: 1;
+    height: 30px;
+    font-weight: bolder;
+}
