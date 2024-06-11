@@ -16,4 +16,5 @@ pub struct SpellView {
     pub cast_time: String,
     pub duration: String,
     pub damage_effect: String,
+    pub dice: Option<String>,
 }
