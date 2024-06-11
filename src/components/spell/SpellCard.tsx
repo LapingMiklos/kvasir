@@ -2,12 +2,14 @@ import { Component } from "solid-js";
 import { Spell } from "../../types/ts-rs/Spell";
 import "../../css/spell/SpellCard.css";
 import SpellCardHeader from "./SpellCardHeader";
+import { SpellLevel } from "../../types/ts-rs/SpellLevel";
 
 type SpellCardProps = {
   spell: Spell;
+  level: SpellLevel;
 };
 
-const SpellCard: Component<SpellCardProps> = ({ spell }) => {
+const SpellCard: Component<SpellCardProps> = ({ spell, level }) => {
   return (
     <div class="spell-container">
       <div class="image-container">

@@ -1,1 +1,2 @@
-pub mod spell;
+pub mod domain;
+pub mod out;
