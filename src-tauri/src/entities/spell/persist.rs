@@ -42,7 +42,7 @@ impl TryFrom<Spell> for PersistSpell {
             level: spell.level.into(),
             school: spell.school.into(),
             range: spell.range.into(),
-            area_size: spell.area.map(|a| a.size),
+            area_size: spell.area.as_ref().map(|a| a.size),
             area_shape: spell.area.map(|a| a.shape.into()),
             is_verbal: spell.is_verbal,
             is_somatic: spell.is_somatic,

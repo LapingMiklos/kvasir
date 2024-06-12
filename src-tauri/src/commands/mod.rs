@@ -1,9 +1,8 @@
 use crate::entities::{
-    dice::Dice,
-    spell::{
-        model::{DamageType, SpellDice},
+    damage_type::DamageType, dice::Dice, spell::{
+        model::SpellDice,
         view::SpellView,
-    },
+    }
 };
 
 #[tauri::command]
