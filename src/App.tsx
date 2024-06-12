@@ -1,12 +1,14 @@
 // import logo from "./assets/logo.svg"
-import { For, createSignal } from "solid-js";
+import { For, createSignal, onMount } from "solid-js";
 import "./App.css";
 import { TitleBar } from "./components/TitleBar";
 import SpellCard from "./components/spell/SpellCard";
 import { SpellView } from "./types/ts-rs/SpellView";
+import invokeCommand from "./commands/invokeCommand";
+import { GetSpells } from "./commands/spellCommands";
 
 function App() {
-  const [spells] = createSignal<SpellView[]>([
+  const [spells, setSpells] = createSignal<SpellView[]>([
     {
       id: BigInt(1),
       iconUrl:
@@ -139,6 +141,15 @@ function App() {
       dice: "1d4",
     },
   ]);
+
+  onMount(async () => {
+    try {
+      const res: SpellView[] = await invokeCommand<GetSpells>("get_spells", {});
+      setSpells(res);
+    } catch (err) {
+      console.log(err);
+    }
+  });
 
   return (
     <>

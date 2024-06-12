@@ -4,11 +4,13 @@
 
 use std::fs;
 
+use crate::commands::get_spells;
 use crate::prelude::*;
 use model::out::spell::SpellView;
 use sqlx::{migrate::MigrateDatabase, Sqlite, SqlitePool};
 use ts_rs::TS;
 
+mod commands;
 mod error;
 mod model;
 mod prelude;
@@ -37,6 +39,7 @@ async fn main() -> Result<()> {
     let db = SqlitePool::connect(DB_URL).await?;
 
     tauri::Builder::default()
+        .invoke_handler(tauri::generate_handler![get_spells])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 
