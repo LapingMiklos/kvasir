@@ -1,4 +1,4 @@
-import { Component } from "solid-js";
+import { Component, For, Show } from "solid-js";
 import "../../css/spell/SpellCard.css";
 import "../../css/DamageEffectTheme.css";
 import { SpellView } from "../../types/ts-rs/SpellView";
@@ -12,7 +12,7 @@ const SpellCard: Component<SpellCardProps> = ({ spell }) => {
   return (
     <div class="spell-container">
       <div class="image-container">
-        <img src={spell.iconUrl ?? undefined} class="image" alt="Spell icon" />
+        <img src={spell.iconUrl} class="image" alt="Spell icon" />
       </div>
       <div class="spell-info">
         <SpellCardHeader spell={spell} />
@@ -31,12 +31,29 @@ const SpellCardHeader: Component<SpellCardProps> = ({ spell }) => {
         </div>
         <div class="subtitle">{`${spell.level} ${spell.school}`}</div>
       </div>
-      <div
-        class="dice-container"
-        style={{ color: `var(--${spell.damageEffect})` }}
-      >
-        {spell.dice}
-        <FaSolidDiceD20 size={20} class="dice-icon" />
+      <div class="dice-container">
+        <For each={spell.dice}>
+          {({ base, dice, damageType }, i) => (
+            <>
+              <div
+                style={{
+                  "margin-inline": "2px",
+                  color: damageType
+                    ? `var(--${damageType})`
+                    : `var(--${spell.damageEffect})`,
+                }}
+              >{`${base}${dice}`}</div>
+              <Show when={i() != spell.dice.length - 1}>
+                <div style={{ "margin-inline": "3px" }}>+</div>
+              </Show>
+            </>
+          )}
+        </For>
+        <FaSolidDiceD20
+          size={20}
+          style={{ color: `var(--${spell.damageEffect})` }}
+          class="dice-icon"
+        />
       </div>
     </div>
   );
@@ -83,6 +100,7 @@ const SpellCardDetails: Component<SpellCardProps> = ({ spell }) => {
             }}
           >
             {spell.damageEffect}
+            <Show when={spell.hasMultipleEffects}>*</Show>
           </div>
         </div>
       </div>

@@ -25,5 +25,24 @@ pub fn get_spells() -> Vec<SpellView> {
             dice: vec![SpellDice {dice: Dice::D4, base: 3, scaling: 1, damage_type: Some(DamageType::Force)}],
             has_multiple_effects: false,
           },
+          SpellView {
+            id: 2,
+            icon_url:
+              "https://bg3.wiki/w/images/thumb/0/08/Ice_Knife.webp/300px-Ice_Knife.webp.png".into(),
+            level: "Lvl 1".into(),
+            name: "Ice Knife".into(),
+            school: "conjuration".into(),
+            attack_save: "DEX save".into(),
+            cast_time: "1 Action".into(),
+            components: "V, S".into(),
+            damage_effect: "piercing".into(),
+            duration: "Instantaneous".into(),
+            range_area: "60 ft (5 ft)".into(),
+            dice: vec![
+                SpellDice {dice: Dice::D10, base: 1, scaling: 0, damage_type: Some(DamageType::Piercing)}, 
+                SpellDice {dice: Dice::D6, base: 2, scaling: 1, damage_type: Some(DamageType::Cold)}
+            ],
+            has_multiple_effects: true,
+          },
     ]
 }
