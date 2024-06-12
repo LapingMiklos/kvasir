@@ -79,15 +79,18 @@ pub enum Duration {
     Day(u32),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+#[ts(export)]
 #[serde(rename_all = "camelCase")]
 pub struct SpellDice {
-    dice: Dice,
-    scaling: u8,
-    damage_type: Option<DamageType>,
+    pub dice: Dice,
+    pub base: u8,
+    pub scaling: u8,
+    pub damage_type: Option<DamageType>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+#[ts(export)]
 #[serde(rename_all = "camelCase")]
 pub enum DamageType {
     Piercing,
