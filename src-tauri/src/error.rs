@@ -10,4 +10,7 @@ pub enum Error {
 
     #[error(transparent)]
     DB(#[from] sqlx::Error),
+
+    #[error("Mapping: {0}")]
+    Mapping(String),
 }
