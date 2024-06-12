@@ -13,4 +13,7 @@ pub enum Error {
 
     #[error("Mapping: {0}")]
     Mapping(String),
+
+    #[error(transparent)]
+    SerdeJson(#[from] serde_json::Error),
 }

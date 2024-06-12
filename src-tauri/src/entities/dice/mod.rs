@@ -5,6 +5,7 @@ use ts_rs::TS;
 #[ts(export)]
 #[serde(rename_all = "camelCase")]
 pub enum Dice {
+    D1,
     D2,
     D3,
     D4,
