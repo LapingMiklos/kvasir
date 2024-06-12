@@ -1,0 +1,22 @@
+CREATE TABLE Spells (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE,
+    icon_url TEXT,
+    description TEXT NOT NULL,
+    at_higher_level TEXT,
+    level INTEGER NOT NULL,
+    school TEXT NOT NULL,
+    range INTEGER NOT NULL,
+    area_size INTEGER,
+    area_shape TEXT,
+    is_verbal BOOLEAN NOT NULL,
+    is_somatic BOOLEAN NOT NULL,
+    materials TEXT,
+    cast_time TEXT NOT NULL,
+    duration_type TEXT NOT NULL,
+    duration INTEGER NOT NULL,
+    effect TEXT NOT NULL,
+    has_multiple_effects BOOLEAN NOT NULL,
+    attack_save TEXT NOT NULL,
+    spell_dice TEXT NOT NULL
+);

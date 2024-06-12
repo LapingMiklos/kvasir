@@ -7,7 +7,10 @@ use std::fs;
 use crate::commands::get_spells;
 use crate::prelude::*;
 use entities::spell::view::SpellView;
-use sqlx::{migrate::MigrateDatabase, Sqlite, SqlitePool};
+use sqlx::{
+    migrate::{MigrateDatabase, Migrator},
+    Sqlite, SqlitePool,
+};
 use ts_rs::TS;
 
 mod commands;
@@ -20,8 +23,6 @@ const DB_URL: &'static str = "sqlite://runtime_res/sqlite.db";
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    // let _ = Spell::export_all_to(EXPORT_DIR);
-    // let _ = SpellLevel::export_all_to(EXPORT_DIR);
     let _ = SpellView::export_all_to(EXPORT_DIR);
 
     fs::create_dir("runtime_res");
@@ -37,6 +38,21 @@ async fn main() -> Result<()> {
     }
 
     let db = SqlitePool::connect(DB_URL).await?;
+
+    let crate_dir = "";
+    let migrations = std::path::Path::new(&crate_dir).join("./migrations");
+    let migration_results = sqlx::migrate::Migrator::new(migrations)
+        .await
+        .unwrap()
+        .run(&db)
+        .await;
+    match migration_results {
+        Ok(_) => println!("Migration success"),
+        Err(error) => {
+            panic!("error: {}", error);
+        }
+    }
+    println!("migration: {:?}", migration_results);
 
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![get_spells])
