@@ -6,13 +6,13 @@ use std::fs;
 
 use crate::commands::get_spells;
 use crate::prelude::*;
-use model::out::spell::SpellView;
+use entities::spell::view::SpellView;
 use sqlx::{migrate::MigrateDatabase, Sqlite, SqlitePool};
 use ts_rs::TS;
 
 mod commands;
+mod entities;
 mod error;
-mod model;
 mod prelude;
 
 const EXPORT_DIR: &'static str = "../src/types/ts-rs";

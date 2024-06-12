@@ -1,4 +1,4 @@
-use crate::model::out::spell::SpellView;
+use crate::entities::spell::view::SpellView;
 
 #[tauri::command]
 pub fn get_spells() -> Vec<SpellView> {
