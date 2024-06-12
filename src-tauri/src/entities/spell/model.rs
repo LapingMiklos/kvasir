@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-use crate::entities::dice::Dice;
+use crate::entities::{dice::Dice, stats::Stats};
 
 #[derive(Debug, Clone)]
 pub struct Spell {
@@ -21,6 +21,7 @@ pub struct Spell {
     pub duration: Duration,
     pub effect: String,
     pub has_multiple_effects: bool,
+    pub attack_save: AttackSave,
     pub spell_dice: Vec<SpellDice>,
 }
 
@@ -106,4 +107,12 @@ pub enum DamageType {
     Radiant,
     Force,
     Psychic,
+}
+
+#[derive(Debug, Clone)]
+pub enum AttackSave {
+    None,
+    Ranged,
+    Melee,
+    Save(Stats),
 }
