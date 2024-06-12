@@ -133,7 +133,7 @@ function App() {
       attackSave: "WIS save",
       castTime: "1 Action",
       components: "V",
-      damageEffect: "warding",
+      damageEffect: "psychic",
       duration: "Instantaneous",
       rangeArea: "60 ft",
       dice: "1d4",
