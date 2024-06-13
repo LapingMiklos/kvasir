@@ -1,13 +1,9 @@
 .titlebar {
-    height: 30px;
+    height: 2em;
     background: #1f1f1f;
     user-select: none;
-    position: fixed;
     display: flex;
-    top: 0;
-    left: 0;
-    right: 0;
-  }
+}
   
 .titlebar-buttons {
     display: flex;
@@ -15,8 +11,8 @@
 }
 
 .titlebar-button {
-    width: 30px;
-    height: 30px;
+    width: 2em;
+    height: 2em;
 }
 
 .titlebar-button:hover {
@@ -24,12 +20,12 @@
 }
 
 .titlebar-icon {
-    width: 30px;
-    height: 30px;
+    width: 2em;
+    height: 2em;
 }
 
 .bar {
     flex: 1;
-    height: 30px;
+    height: 2em;
     font-weight: bolder;
 }

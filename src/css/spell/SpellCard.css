@@ -1,11 +1,11 @@
 :root {
-    --card-h: 165px;
+    --card-h: 10em;
     --border-rad: 10px;
 }
 
 .spell-container {
     display: flex;
-    width: 600px;
+    width: 40em;
     height: var(--card-h);
     background-color: #3f3f3f;
     border-radius: var(--border-rad);
@@ -105,7 +105,6 @@
 
 .dice-icon {
     margin-left: 5px;
-    height: 25px;
 }
 
 .subtitle {
