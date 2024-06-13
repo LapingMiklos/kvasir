@@ -1,6 +1,10 @@
+use serde::Deserialize;
+use ts_rs::TS;
+
 use crate::prelude::*;
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Deserialize, TS)]
+#[ts(export)]
 pub enum Stats {
     STR,
     DEX,

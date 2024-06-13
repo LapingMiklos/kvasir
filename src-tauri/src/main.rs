@@ -5,7 +5,7 @@ use std::{fs, sync::Arc};
 
 use crate::commands::get_spells;
 use crate::prelude::*;
-use entities::spell::view::SpellView;
+use entities::spell::{create::CreateSpell, view::SpellView};
 
 use sqlx::{migrate::MigrateDatabase, Sqlite, SqlitePool};
 use ts_rs::TS;
@@ -23,6 +23,7 @@ const DB_URL: &'static str = "sqlite://runtime_res/sqlite.db";
 #[tokio::main]
 async fn main() -> Result<()> {
     let _ = SpellView::export_all_to(EXPORT_DIR);
+    let _ = CreateSpell::export_all_to(EXPORT_DIR);
 
     let _ = fs::create_dir("runtime_res");
 

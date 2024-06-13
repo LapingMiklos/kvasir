@@ -28,7 +28,9 @@ pub struct Spell {
 
 // region: ---SpellLevel
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize, TS)]
+#[ts(export)]
+#[serde(rename_all = "camelCase")]
 pub enum SpellLevel {
     Cantrip,
     Leveled(u8),
@@ -56,7 +58,9 @@ impl From<u8> for SpellLevel {
 
 // region: ---SpellSchool
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize, TS)]
+#[ts(export)]
+#[serde(rename_all = "camelCase")]
 pub enum SpellSchool {
     Abjuration,
     Conjuration,
@@ -105,7 +109,9 @@ impl From<String> for SpellSchool {
 
 // region: ---Range
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Deserialize, TS)]
+#[ts(export)]
+#[serde(rename_all = "camelCase")]
 pub enum Range {
     User,
     Distance(u32),
@@ -146,13 +152,17 @@ impl From<Range> for String {
 
 // region: ---AreaEffect
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize, TS)]
+#[ts(export)]
+#[serde(rename_all = "camelCase")]
 pub struct AreaEffect {
     pub size: u32,
     pub shape: Shape,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize, TS)]
+#[ts(export)]
+#[serde(rename_all = "camelCase")]
 pub enum Shape {
     Cube,
     Cylinder,
@@ -164,10 +174,10 @@ pub enum Shape {
 impl Into<String> for Shape {
     fn into(self) -> String {
         match self {
-            Shape::Cube => "Cube".to_string(),
-            Shape::Cylinder => "Cylinder".to_string(),
-            Shape::Line => "Line".to_string(),
-            Shape::Sphere => "Sphere".to_string(),
+            Shape::Cube => "cube".to_string(),
+            Shape::Cylinder => "cylinder".to_string(),
+            Shape::Line => "line".to_string(),
+            Shape::Sphere => "sphere".to_string(),
             Shape::Custom(s) => s,
         }
     }
@@ -176,10 +186,10 @@ impl Into<String> for Shape {
 impl From<String> for Shape {
     fn from(s: String) -> Shape {
         match s.as_str() {
-            "Cube" => Shape::Cube,
-            "Cylinder" => Shape::Cylinder,
-            "Line" => Shape::Line,
-            "Sphere" => Shape::Sphere,
+            "cube" => Shape::Cube,
+            "cylinder" => Shape::Cylinder,
+            "line" => Shape::Line,
+            "sphere" => Shape::Sphere,
             _ => Shape::Custom(s),
         }
     }
@@ -189,7 +199,9 @@ impl From<String> for Shape {
 
 // region: ---CastTime
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize, TS)]
+#[ts(export)]
+#[serde(rename_all = "camelCase")]
 pub enum CastTime {
     Action,
     BonusAction,
@@ -223,7 +235,9 @@ impl From<String> for CastTime {
 
 // region: ---Duration
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize, TS)]
+#[ts(export)]
+#[serde(rename_all = "camelCase")]
 pub enum Duration {
     Instantaneous,
     Min(u8),
@@ -287,7 +301,9 @@ pub struct SpellDice {
 
 // region: ---AttackSave
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize, TS)]
+#[ts(export)]
+#[serde(rename_all = "camelCase")]
 pub enum AttackSave {
     None,
     Ranged,
