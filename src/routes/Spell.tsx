@@ -2,6 +2,8 @@ import { useParams } from "@solidjs/router";
 import { Component, createEffect } from "solid-js";
 import invokeCommand from "../commands/invokeCommand";
 import { GetSpellById } from "../commands/spellCommands";
+import BackButton from "../components/util/BackButton";
+import "../App.css";
 
 const Spell: Component<{}> = () => {
   const params = useParams();
@@ -14,7 +16,11 @@ const Spell: Component<{}> = () => {
     console.log(res);
   });
 
-  return <div>{params.id}</div>;
+  return (
+    <div>
+      <BackButton />
+    </div>
+  );
 };
 
 export default Spell;

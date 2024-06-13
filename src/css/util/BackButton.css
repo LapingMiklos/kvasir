@@ -1,0 +1,10 @@
+.back-button {
+    border-radius: 100%;
+    margin: 3px;
+    padding: 3px;
+    color: #9f9f9f;
+}
+
+.back-button:hover {
+    background-color: #3f3f3f;
+}
