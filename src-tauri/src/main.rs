@@ -92,7 +92,7 @@ async fn main() -> Result<()> {
         }],
     };
 
-    // repo::spell::create(&db, spell.try_into()?).await?;
+    repo::spell_repository::create(&db, spell.try_into()?).await?;
 
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![get_spells])
