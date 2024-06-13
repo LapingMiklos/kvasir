@@ -15,15 +15,6 @@
 
 }
 
-.spells-container {
-  margin: 0;
-  padding-top: 1vh;
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  text-align: center;
-}
-
 .a-disable {
   color: #f6f6f6;
   text-decoration: none;

@@ -4,14 +4,17 @@ import "../../css/DamageEffectTheme.css";
 import { SpellView } from "../../types/ts-rs/SpellView";
 import { FaSolidDiceD20 } from "solid-icons/fa";
 import { cssVar } from "../../utils/css";
+import { useNavigate } from "@solidjs/router";
 
 type SpellCardProps = {
   spell: SpellView;
 };
 
 const SpellCard: Component<SpellCardProps> = ({ spell }) => {
+  const nav = useNavigate();
+
   return (
-    <div class="spell-container">
+    <div class="spell-container" onClick={() => nav(`/spells/${spell.id}`)}>
       <div class="image-container">
         <img src={spell.iconUrl} class="image" alt="Spell icon" />
       </div>

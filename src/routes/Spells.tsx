@@ -1,18 +1,19 @@
-import { Component, For, createSignal, onMount } from "solid-js";
+import { Component, For, Show, createSignal, onMount } from "solid-js";
 import SpellCard from "../components/spell/SpellCard";
 import { GetSpells, PostSpell } from "../commands/spellCommands";
 import invokeCommand from "../commands/invokeCommand";
 import { SpellView } from "../types/ts-rs/SpellView";
-import { A } from "@solidjs/router";
-import "../App.css";
+import "../css/spell/Spells.css";
+import { FaSolidFilter } from "solid-icons/fa";
 
 const Spells: Component<{}> = () => {
   const [spells, setSpells] = createSignal<SpellView[]>([]);
+  const [visible, setVisible] = createSignal(false);
 
   onMount(async () => {
     const postRes = await invokeCommand<PostSpell>("post_spell", {
       spell: {
-        name: "Ice Knife bg3",
+        name: "Ice Knife bg3 again",
         iconUrl:
           "https://bg3.wiki/w/images/thumb/0/08/Ice_Knife.webp/300px-Ice_Knife.webp.png",
         area: { size: 5, shape: "sphere" },
@@ -49,14 +50,16 @@ const Spells: Component<{}> = () => {
   });
 
   return (
-    <div class="spells-container">
-      <For each={spells()}>
-        {(spell) => (
-          <A class="a-disable" href={`/spells/${spell.id}`}>
-            <SpellCard spell={spell} />
-          </A>
-        )}
-      </For>
+    <div style={{ display: "flex", height: "100%" }}>
+      <Show when={visible()}>
+        <div>Filters go here</div>
+      </Show>
+      <div>
+        <FaSolidFilter size={30} onClick={() => setVisible(!visible())} />
+      </div>
+      <div class="spells-container">
+        <For each={spells()}>{(spell) => <SpellCard spell={spell} />}</For>
+      </div>
     </div>
   );
 };

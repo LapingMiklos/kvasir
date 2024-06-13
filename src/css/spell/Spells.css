@@ -1,0 +1,9 @@
+.spells-container {
+    margin: 0;
+    padding-top: 1vh;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    text-align: center;
+  }
