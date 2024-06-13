@@ -4,4 +4,10 @@ import { BaseCommand } from "./invokeCommand";
 
 export type GetSpells = BaseCommand<"get_spells", {}, SpellView[]>;
 
+export type GetSpellById = BaseCommand<
+  "get_spell_by_id",
+  { id: number },
+  SpellView | null
+>;
+
 export type PostSpell = BaseCommand<"post_spell", { spell: CreateSpell }, void>;
