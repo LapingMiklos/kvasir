@@ -7,10 +7,10 @@ const SideBar: Component<{}> = () => {
   return (
     <div class="sidebar">
       <A href="/" class="icon" activeClass="icon-active" end>
-        <VsHome size={40} />
+        <VsHome size={35} />
       </A>
       <A href="/spells" class="icon" activeClass="icon-active">
-        <VsBook size={40} />
+        <VsBook size={35} />
       </A>
     </div>
   );

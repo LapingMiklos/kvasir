@@ -3,6 +3,7 @@ import "../../css/spell/SpellCard.css";
 import "../../css/DamageEffectTheme.css";
 import { SpellView } from "../../types/ts-rs/SpellView";
 import { FaSolidDiceD20 } from "solid-icons/fa";
+import { cssVar } from "../../utils/css";
 
 type SpellCardProps = {
   spell: SpellView;
@@ -26,7 +27,7 @@ const SpellCardHeader: Component<SpellCardProps> = ({ spell }) => {
   return (
     <div class="spell-header">
       <div class="title-subtitle">
-        <div class="title" style={{ color: `var(--${spell.damageEffect})` }}>
+        <div class="title" style={{ color: cssVar(spell.damageEffect) }}>
           {spell.name}
         </div>
         <div class="subtitle">{`${spell.level} ${spell.school}`}</div>
@@ -39,8 +40,8 @@ const SpellCardHeader: Component<SpellCardProps> = ({ spell }) => {
                 style={{
                   "margin-inline": "2px",
                   color: damageType
-                    ? `var(--${damageType})`
-                    : `var(--${spell.damageEffect})`,
+                    ? cssVar(damageType)
+                    : cssVar(spell.damageEffect),
                 }}
               >{`${base}${dice}`}</div>
               <Show when={i() != spell.dice.length - 1}>
@@ -51,7 +52,7 @@ const SpellCardHeader: Component<SpellCardProps> = ({ spell }) => {
         </For>
         <FaSolidDiceD20
           size={20}
-          style={{ color: `var(--${spell.damageEffect})` }}
+          style={{ color: cssVar(spell.damageEffect) }}
           class="dice-icon"
         />
       </div>
@@ -62,10 +63,7 @@ const SpellCardHeader: Component<SpellCardProps> = ({ spell }) => {
 const SpellCardDetails: Component<SpellCardProps> = ({ spell }) => {
   return (
     <div class="spell-details">
-      <div
-        class="row"
-        style={{ "border-color": `var(--${spell.damageEffect})` }}
-      >
+      <div class="row" style={{ "border-color": cssVar(spell.damageEffect) }}>
         <div class="item">
           <div class="item-title">casting time</div>
           <div class="item-content">{spell.castTime}</div>
@@ -79,10 +77,7 @@ const SpellCardDetails: Component<SpellCardProps> = ({ spell }) => {
           <div class="item-content">{spell.components}</div>
         </div>
       </div>
-      <div
-        class="row"
-        style={{ "border-color": `var(--${spell.damageEffect})` }}
-      >
+      <div class="row" style={{ "border-color": cssVar(spell.damageEffect) }}>
         <div class="item">
           <div class="item-title">duration</div>
           <div class="item-content">{spell.duration}</div>
