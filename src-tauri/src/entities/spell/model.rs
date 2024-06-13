@@ -111,6 +111,10 @@ pub enum Range {
     Distance(u32),
 }
 
+impl Range {
+    const SELF: &'static str = "self";
+}
+
 impl Into<u32> for Range {
     fn into(self) -> u32 {
         match self {
@@ -125,6 +129,15 @@ impl From<u32> for Range {
         match value {
             0 => Self::User,
             _ => Self::Distance(value),
+        }
+    }
+}
+
+impl From<Range> for String {
+    fn from(value: Range) -> String {
+        match value {
+            Range::User => Range::SELF.into(),
+            Range::Distance(d) => format!("{} ft", d),
         }
     }
 }
@@ -225,6 +238,17 @@ impl Into<(String, u8)> for Duration {
             Self::Min(m) => ("Min".into(), m),
             Self::Hour(h) => ("Hour".into(), h),
             Self::Day(d) => ("Day".into(), d),
+        }
+    }
+}
+
+impl Into<String> for Duration {
+    fn into(self) -> String {
+        match self {
+            Self::Instantaneous => "instantaneous".into(),
+            Self::Min(m) => format!("{} min", m),
+            Self::Hour(h) => format!("{} hour", h),
+            Self::Day(d) => format!("{} day", d),
         }
     }
 }
