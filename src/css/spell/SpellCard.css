@@ -1,11 +1,11 @@
 :root {
-    --card-h: 10em;
+    --card-h: 10rem;
     --border-rad: 10px;
 }
 
 .spell-container {
     display: flex;
-    width: 40em;
+    width: 40rem;
     height: var(--card-h);
     background-color: #3f3f3f;
     border-radius: var(--border-rad);
