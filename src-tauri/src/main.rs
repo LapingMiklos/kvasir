@@ -28,6 +28,7 @@ use sqlx::{
 use ts_rs::TS;
 
 mod commands;
+mod ctx;
 mod entities;
 mod error;
 mod prelude;
