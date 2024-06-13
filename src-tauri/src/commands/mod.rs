@@ -43,7 +43,7 @@ impl<T: Serialize> From<Result<T>> for CommandResponse<T> {
 }
 
 #[tauri::command]
-pub async fn get_spells(app: AppHandle<Wry>) -> Vec<SpellView> {
+pub async fn get_spells(app: AppHandle<Wry>) -> CommandResponse<Vec<SpellView>> {
     let db = (*app.state::<Arc<Pool<Sqlite>>>()).clone();
 
     let spells = match spell_repository::find_all(db.as_ref()).await {
@@ -56,5 +56,5 @@ pub async fn get_spells(app: AppHandle<Wry>) -> Vec<SpellView> {
         .filter_map(|s| s.try_into().ok())
         .collect();
 
-    spells.into_iter().map(|s| s.into()).collect()
+    Ok(spells.into_iter().map(|s| s.into()).collect()).into()
 }

@@ -11,11 +11,9 @@ function App() {
   const [spells, setSpells] = createSignal<SpellView[]>([]);
 
   onMount(async () => {
-    try {
-      const res: SpellView[] = await invokeCommand<GetSpells>("get_spells", {});
-      setSpells(res);
-    } catch (err) {
-      console.log(err);
+    const res = await invokeCommand<GetSpells>("get_spells", {});
+    if (res.error == null) {
+      setSpells(res.result.data);
     }
   });
 
