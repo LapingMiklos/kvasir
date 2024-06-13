@@ -2,7 +2,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 #![allow(unused)] // COMMENT OUT LATER
 
-use std::fs;
+use std::{fs, sync::Arc};
 
 use crate::commands::get_spells;
 use crate::prelude::*;
@@ -63,38 +63,39 @@ async fn main() -> Result<()> {
         }
     };
 
-    let spell: Spell = Spell {
-        id: -1,
-        name: "Fireball".into(),
-        icon_url: Some("https://www.dndbeyond.com/attachments/2/703/evocation.png".into()),
-        description: "".into(),
-        at_higher_level: None,
-        level: SpellLevel::Leveled(3),
-        school: SpellSchool::Evocation,
-        range: Range::Distance(150),
-        area: Some(AreaEffect {
-            size: 20,
-            shape: Shape::Sphere,
-        }),
-        is_verbal: true,
-        is_somatic: true,
-        materials: Some("".into()),
-        cast_time: CastTime::Action,
-        duration: Duration::Instantaneous,
-        effect: "fire".into(),
-        has_multiple_effects: false,
-        attack_save: AttackSave::Save(Stats::DEX),
-        spell_dice: vec![SpellDice {
-            base: 8,
-            dice: Dice::D8,
-            scaling: 1,
-            damage_type: Some(DamageType::Fire),
-        }],
-    };
+    // let spell: Spell = Spell {
+    //     id: -1,
+    //     name: "Fireball".into(),
+    //     icon_url: Some("https://www.dndbeyond.com/attachments/2/703/evocation.png".into()),
+    //     description: "".into(),
+    //     at_higher_level: None,
+    //     level: SpellLevel::Leveled(3),
+    //     school: SpellSchool::Evocation,
+    //     range: Range::Distance(150),
+    //     area: Some(AreaEffect {
+    //         size: 20,
+    //         shape: Shape::Sphere,
+    //     }),
+    //     is_verbal: true,
+    //     is_somatic: true,
+    //     materials: Some("".into()),
+    //     cast_time: CastTime::Action,
+    //     duration: Duration::Instantaneous,
+    //     effect: "fire".into(),
+    //     has_multiple_effects: false,
+    //     attack_save: AttackSave::Save(Stats::DEX),
+    //     spell_dice: vec![SpellDice {
+    //         base: 8,
+    //         dice: Dice::D8,
+    //         scaling: 1,
+    //         damage_type: Some(DamageType::Fire),
+    //     }],
+    // };
 
-    repo::spell_repository::create(&db, spell.try_into()?).await?;
+    // println!("{:?}", repo::spell_repository::find_all(&db).await?);
 
     tauri::Builder::default()
+        .manage(Arc::new(db))
         .invoke_handler(tauri::generate_handler![get_spells])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

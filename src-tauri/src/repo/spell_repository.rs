@@ -1,4 +1,4 @@
-use sqlx::{Pool, Sqlite};
+use sqlx::{FromRow, Pool, Sqlite};
 
 use crate::entities::spell::persist::PersistSpell;
 
@@ -74,4 +74,17 @@ VALUES
     .execute(db)
     .await?;
     Ok(())
+}
+
+pub async fn find_all(db: &Pool<Sqlite>) -> Result<Vec<PersistSpell>> {
+    let res = sqlx::query_as!(
+        PersistSpell,
+        "SELECT
+        *
+        FROM Spells"
+    )
+    .fetch_all(db)
+    .await?;
+
+    Ok(res)
 }

@@ -11,17 +11,17 @@ pub struct PersistSpell {
     pub icon_url: Option<String>,
     pub description: String,
     pub at_higher_level: Option<String>,
-    pub level: u8,
+    pub level: i64,
     pub school: String,
-    pub range: u32,
-    pub area_size: Option<u32>,
+    pub range: i64,
+    pub area_size: Option<i64>,
     pub area_shape: Option<String>,
     pub is_verbal: bool,
     pub is_somatic: bool,
     pub materials: Option<String>,
     pub cast_time: String,
     pub duration_type: String,
-    pub duration: u8,
+    pub duration: i64,
     pub effect: String,
     pub has_multiple_effects: bool,
     pub attack_save: String,
@@ -32,6 +32,8 @@ impl TryFrom<Spell> for PersistSpell {
     type Error = Error;
     fn try_from(spell: Spell) -> Result<PersistSpell> {
         let (duration_type, duration) = spell.duration.into();
+        let level: u8 = spell.level.into();
+        let range: u32 = spell.range.into();
 
         Ok(PersistSpell {
             id: spell.id,
@@ -39,17 +41,17 @@ impl TryFrom<Spell> for PersistSpell {
             icon_url: spell.icon_url,
             description: spell.description,
             at_higher_level: spell.at_higher_level,
-            level: spell.level.into(),
+            level: level as i64,
             school: spell.school.into(),
-            range: spell.range.into(),
-            area_size: spell.area.as_ref().map(|a| a.size),
+            range: range as i64,
+            area_size: spell.area.as_ref().map(|a| a.size as i64),
             area_shape: spell.area.map(|a| a.shape.into()),
             is_verbal: spell.is_verbal,
             is_somatic: spell.is_somatic,
             materials: spell.materials,
             cast_time: spell.cast_time.into(),
             duration_type,
-            duration,
+            duration: duration as i64,
             effect: spell.effect,
             has_multiple_effects: spell.has_multiple_effects,
             attack_save: spell.attack_save.into(),
@@ -67,21 +69,21 @@ impl TryInto<Spell> for PersistSpell {
             icon_url: self.icon_url,
             description: self.description,
             at_higher_level: self.at_higher_level,
-            level: self.level.into(),
+            level: (self.level as u8).into(),
             school: self.school.into(),
-            range: self.range.into(),
+            range: (self.range as u32).into(),
             area: self
                 .area_size
                 .zip(self.area_shape)
                 .map(|(size, shape)| AreaEffect {
-                    size,
+                    size: size as u32,
                     shape: shape.into(),
                 }),
             is_verbal: self.is_verbal,
             is_somatic: self.is_somatic,
             materials: self.materials,
             cast_time: self.cast_time.into(),
-            duration: (self.duration_type, self.duration).try_into()?,
+            duration: (self.duration_type, self.duration as u8).try_into()?,
             effect: self.effect,
             has_multiple_effects: self.has_multiple_effects,
             attack_save: self.attack_save.try_into()?,

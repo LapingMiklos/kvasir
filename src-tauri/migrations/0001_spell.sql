@@ -1,5 +1,5 @@
 CREATE TABLE Spells (
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY NOT NULL,
     name TEXT NOT NULL UNIQUE,
     icon_url TEXT,
     description TEXT NOT NULL,

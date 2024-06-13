@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "INSERT INTO\n    Spells (\n        name,\n        icon_url,\n        description,\n        at_higher_level,\n        level,\n        school,\n        range,\n        area_size,\n        area_shape,\n        is_verbal,\n        is_somatic,\n        materials,\n        cast_time,\n        duration_type,\n        duration,\n        effect,\n        has_multiple_effects,\n        attack_save,\n        spell_dice\n    )\nVALUES\n    (\n        $1,\n        $2,\n        $3,\n        $4,\n        $5,\n        $6,\n        $7,\n        $8,\n        $9,\n        $10,\n        $11,\n        $12,\n        $13,\n        $14,\n        $15,\n        $16,\n        $17,\n        $18,\n        $19\n    )\n    ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 19
+    },
+    "nullable": []
+  },
+  "hash": "82a417e90aac2fab71803f092732b690ffb8cfad199427ed60f2d2e2829e6bed"
+}
