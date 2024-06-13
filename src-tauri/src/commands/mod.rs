@@ -1,13 +1,7 @@
 use crate::prelude::*;
 use serde::Serialize;
-use sqlx::{Pool, Sqlite};
-use std::sync::Arc;
-use tauri::{AppHandle, Manager, Wry};
 
-use crate::{
-    entities::spell::{model::Spell, view::SpellView},
-    repo::spell_repository,
-};
+pub mod spells;
 
 #[derive(Serialize)]
 pub struct CommandResult<T: Serialize> {
@@ -40,21 +34,4 @@ impl<T: Serialize> From<Result<T>> for CommandResponse<T> {
             },
         }
     }
-}
-
-#[tauri::command]
-pub async fn get_spells(app: AppHandle<Wry>) -> CommandResponse<Vec<SpellView>> {
-    let db = (*app.state::<Arc<Pool<Sqlite>>>()).clone();
-
-    let spells = match spell_repository::find_all(db.as_ref()).await {
-        Ok(spells) => spells,
-        Err(_) => vec![],
-    };
-
-    let spells: Vec<Spell> = spells
-        .into_iter()
-        .filter_map(|s| s.try_into().ok())
-        .collect();
-
-    Ok(spells.into_iter().map(|s| s.into()).collect()).into()
 }

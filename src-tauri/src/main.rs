@@ -3,8 +3,8 @@
 
 use std::{fs, sync::Arc};
 
-use crate::commands::get_spells;
 use crate::prelude::*;
+use commands::spells::{get_spells, post_spell};
 use entities::spell::{create::CreateSpell, view::SpellView};
 
 use sqlx::{migrate::MigrateDatabase, Sqlite, SqlitePool};
@@ -16,6 +16,7 @@ mod entities;
 mod error;
 mod prelude;
 mod repo;
+mod service;
 
 const EXPORT_DIR: &'static str = "../src/types/ts-rs";
 const DB_URL: &'static str = "sqlite://runtime_res/sqlite.db";
@@ -48,40 +49,9 @@ async fn main() -> Result<()> {
         }
     };
 
-    // let spell: Spell = Spell {
-    //     id: -1,
-    //     name: "Fireball".into(),
-    //     icon_url: Some("https://www.dndbeyond.com/attachments/2/703/evocation.png".into()),
-    //     description: "".into(),
-    //     at_higher_level: None,
-    //     level: SpellLevel::Leveled(3),
-    //     school: SpellSchool::Evocation,
-    //     range: Range::Distance(150),
-    //     area: Some(AreaEffect {
-    //         size: 20,
-    //         shape: Shape::Sphere,
-    //     }),
-    //     is_verbal: true,
-    //     is_somatic: true,
-    //     materials: Some("".into()),
-    //     cast_time: CastTime::Action,
-    //     duration: Duration::Instantaneous,
-    //     effect: "fire".into(),
-    //     has_multiple_effects: false,
-    //     attack_save: AttackSave::Save(Stats::DEX),
-    //     spell_dice: vec![SpellDice {
-    //         base: 8,
-    //         dice: Dice::D8,
-    //         scaling: 1,
-    //         damage_type: Some(DamageType::Fire),
-    //     }],
-    // };
-
-    // println!("{:?}", repo::spell_repository::find_all(&db).await?);
-
     tauri::Builder::default()
         .manage(Arc::new(db))
-        .invoke_handler(tauri::generate_handler![get_spells])
+        .invoke_handler(tauri::generate_handler![get_spells, post_spell])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 

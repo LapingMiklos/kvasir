@@ -3,18 +3,21 @@ use std::sync::Arc;
 use sqlx::{Pool, Sqlite};
 use tauri::{AppHandle, Manager, Wry};
 
+use crate::service::spell::SpellService;
+
 pub struct Context {
-    db: Arc<Pool<Sqlite>>,
+    spell_service: SpellService,
 }
 
 impl Context {
     pub fn from_app(app: &AppHandle<Wry>) -> Self {
+        let db = (*app.state::<Arc<Pool<Sqlite>>>()).clone();
         Context {
-            db: (*app.state::<Arc<Pool<Sqlite>>>()).clone(),
+            spell_service: SpellService::new(db),
         }
     }
 
-    pub fn db(&self) -> &Pool<Sqlite> {
-        &self.db
+    pub fn spell_service(&self) -> &SpellService {
+        &self.spell_service
     }
 }
