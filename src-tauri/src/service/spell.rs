@@ -25,4 +25,9 @@ impl SpellService {
             .filter_map(|s| s.try_into().ok())
             .collect())
     }
+
+    pub async fn find_by_id(&self, id: i64) -> Result<Option<Spell>> {
+        let spell = repo::spell::find_by_id(self.db.as_ref(), id).await?;
+        spell.map(|s| s.try_into()).transpose()
+    }
 }

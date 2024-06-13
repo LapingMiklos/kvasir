@@ -18,6 +18,16 @@ pub async fn get_spells(app: AppHandle<Wry>) -> CommandResponse<Vec<SpellView>> 
 }
 
 #[tauri::command]
+pub async fn get_spell_by_id(app: AppHandle<Wry>, id: i64) -> CommandResponse<Option<SpellView>> {
+    let ctx = Context::from_app(&app);
+
+    match ctx.spell_service().find_by_id(id).await {
+        Ok(spell) => Ok(spell.map(|s| s.into())).into(),
+        Err(err) => Err(err).into(),
+    }
+}
+
+#[tauri::command]
 pub async fn post_spell(app: AppHandle<Wry>, spell: CreateSpell) -> CommandResponse<()> {
     let ctx = Context::from_app(&app);
 

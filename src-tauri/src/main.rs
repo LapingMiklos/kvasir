@@ -4,7 +4,7 @@
 use std::{fs, sync::Arc};
 
 use crate::prelude::*;
-use commands::spells::{get_spells, post_spell};
+use commands::spells::{get_spell_by_id, get_spells, post_spell};
 use dotenv_codegen::dotenv;
 use entities::spell::{create::CreateSpell, view::SpellView};
 
@@ -53,7 +53,11 @@ async fn main() -> Result<()> {
 
     tauri::Builder::default()
         .manage(Arc::new(db))
-        .invoke_handler(tauri::generate_handler![get_spells, post_spell])
+        .invoke_handler(tauri::generate_handler![
+            get_spells,
+            get_spell_by_id,
+            post_spell
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 

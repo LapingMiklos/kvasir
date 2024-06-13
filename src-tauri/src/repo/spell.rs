@@ -88,3 +88,17 @@ pub async fn find_all(db: &Pool<Sqlite>) -> Result<Vec<PersistSpell>> {
 
     Ok(res)
 }
+
+pub async fn find_by_id(db: &Pool<Sqlite>, id: i64) -> Result<Option<PersistSpell>> {
+    let res = sqlx::query_as!(
+        PersistSpell,
+        "SELECT
+        *
+        FROM Spells WHERE id=$1",
+        id
+    )
+    .fetch_optional(db)
+    .await?;
+
+    Ok(res)
+}
