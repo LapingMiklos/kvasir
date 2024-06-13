@@ -24,6 +24,7 @@ pub struct SpellView {
 
 impl From<Spell> for SpellView {
     fn from(spell: Spell) -> Self {
+        // TODO: implement default_icon
         let default_icon = "https://www.dndbeyond.com/attachments/2/720/necromancy.png".to_string();
         let level = match spell.level {
             SpellLevel::Cantrip => "cantrip".into(),

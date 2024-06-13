@@ -6,7 +6,21 @@ use std::fs;
 
 use crate::commands::get_spells;
 use crate::prelude::*;
-use entities::spell::view::SpellView;
+use entities::{
+    damage_type::DamageType,
+    dice::Dice,
+    spell::{
+        self,
+        model::{
+            AreaEffect, AttackSave, CastTime, Duration, Range, Shape, Spell, SpellDice, SpellLevel,
+            SpellSchool,
+        },
+        persist::PersistSpell,
+        view::SpellView,
+    },
+    stats::Stats,
+};
+
 use sqlx::{
     migrate::{MigrateDatabase, Migrator},
     Sqlite, SqlitePool,
@@ -17,6 +31,7 @@ mod commands;
 mod entities;
 mod error;
 mod prelude;
+mod repo;
 
 const EXPORT_DIR: &'static str = "../src/types/ts-rs";
 const DB_URL: &'static str = "sqlite://runtime_res/sqlite.db";
@@ -39,20 +54,45 @@ async fn main() -> Result<()> {
 
     let db = SqlitePool::connect(DB_URL).await?;
 
-    let crate_dir = "";
-    let migrations = std::path::Path::new(&crate_dir).join("./migrations");
-    let migration_results = sqlx::migrate::Migrator::new(migrations)
-        .await
-        .unwrap()
-        .run(&db)
-        .await;
-    match migration_results {
-        Ok(_) => println!("Migration success"),
-        Err(error) => {
-            panic!("error: {}", error);
+    match sqlx::migrate!("./migrations").run(&db).await {
+        Ok(()) => {
+            println!("Migration success")
         }
-    }
-    println!("migration: {:?}", migration_results);
+        Err(err) => {
+            println!("Migration error: {}", err)
+        }
+    };
+
+    let spell: Spell = Spell {
+        id: -1,
+        name: "Fireball".into(),
+        icon_url: Some("https://www.dndbeyond.com/attachments/2/703/evocation.png".into()),
+        description: "".into(),
+        at_higher_level: None,
+        level: SpellLevel::Leveled(3),
+        school: SpellSchool::Evocation,
+        range: Range::Distance(150),
+        area: Some(AreaEffect {
+            size: 20,
+            shape: Shape::Sphere,
+        }),
+        is_verbal: true,
+        is_somatic: true,
+        materials: Some("".into()),
+        cast_time: CastTime::Action,
+        duration: Duration::Instantaneous,
+        effect: "fire".into(),
+        has_multiple_effects: false,
+        attack_save: AttackSave::Save(Stats::DEX),
+        spell_dice: vec![SpellDice {
+            base: 8,
+            dice: Dice::D8,
+            scaling: 1,
+            damage_type: Some(DamageType::Fire),
+        }],
+    };
+
+    // repo::spell::create(&db, spell.try_into()?).await?;
 
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![get_spells])
