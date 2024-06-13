@@ -1,6 +1,24 @@
 .sidebar {
-    padding: 5px;
     display: flex;
     flex-direction: column;
+    background-color: #1f1f1f;
+    border-right-style: solid;
+    border-width: 1px;
+    border-color: #9f9f9f;
+}
+
+.icon {
+    padding: 5px;
+    color: #9f9f9f;
+    border-bottom-style: solid;
+    border-width: 1px;
+    border-color: #9f9f9f;
+}
+
+.icon:hover {
     background-color: #3f3f3f;
+}
+
+.icon-active {
+    color: white;
 }

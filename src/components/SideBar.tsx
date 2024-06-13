@@ -7,10 +7,10 @@ import { BsMagic } from "solid-icons/bs";
 const SideBar: Component<{}> = () => {
   return (
     <div class="sidebar">
-      <A href="/">
+      <A href="/" class="icon" activeClass="icon-active" end>
         <VsHome size={40} />
       </A>
-      <A href="/spells" end>
+      <A href="/spells" class="icon" activeClass="icon-active">
         <BsMagic size={40} />
       </A>
     </div>

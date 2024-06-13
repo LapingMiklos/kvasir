@@ -10,8 +10,9 @@ const Spells: Component<{}> = () => {
   onMount(async () => {
     const postRes = await invokeCommand<PostSpell>("post_spell", {
       spell: {
-        name: "Ice Knife",
-        iconUrl: "https://www.dndbeyond.com/attachments/2/708/conjuration.png",
+        name: "Ice Knife bg3",
+        iconUrl:
+          "https://bg3.wiki/w/images/thumb/0/08/Ice_Knife.webp/300px-Ice_Knife.webp.png",
         area: { size: 5, shape: "sphere" },
         atHigherLevel:
           "When you cast this spell using a spell slot of 2nd level or higher, the cold damage increases by 1d6 for each slot level above 1st.",
