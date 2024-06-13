@@ -37,7 +37,7 @@ impl From<Spell> for SpellView {
                 .area
                 .map_or_else(|| "".into(), |a| format!("({} ft)", a.size))
         );
-        let mut components = [
+        let components = [
             ("V", spell.is_verbal),
             ("S", spell.is_somatic),
             ("M", spell.materials.is_some()),

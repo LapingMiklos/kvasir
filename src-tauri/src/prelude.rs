@@ -4,4 +4,4 @@ pub use crate::error::Error;
 pub type Result<T> = std::result::Result<T, Error>;
 
 // Generic wrapper to implement external traits on external types
-pub struct W<T>(pub T);
+// pub struct W<T>(pub T);

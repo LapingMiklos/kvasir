@@ -5,14 +5,7 @@ use std::sync::Arc;
 use tauri::{AppHandle, Manager, Wry};
 
 use crate::{
-    entities::{
-        damage_type::DamageType,
-        dice::Dice,
-        spell::{
-            model::{Spell, SpellDice, SpellLevel},
-            view::SpellView,
-        },
-    },
+    entities::spell::{model::Spell, view::SpellView},
     repo::spell_repository,
 };
 
@@ -55,7 +48,7 @@ pub async fn get_spells(app: AppHandle<Wry>) -> Vec<SpellView> {
 
     let spells = match spell_repository::find_all(db.as_ref()).await {
         Ok(spells) => spells,
-        Err(err) => vec![],
+        Err(_) => vec![],
     };
 
     let spells: Vec<Spell> = spells

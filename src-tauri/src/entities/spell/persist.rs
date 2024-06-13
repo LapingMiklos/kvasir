@@ -1,7 +1,6 @@
-use serde::Serialize;
 use sqlx::prelude::FromRow;
 
-use super::model::{AreaEffect, Duration, Spell, SpellLevel};
+use super::model::{AreaEffect, Spell};
 use crate::prelude::*;
 
 #[derive(Debug, Clone, FromRow)]

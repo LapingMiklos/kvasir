@@ -1,30 +1,13 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
-#![allow(unused)] // COMMENT OUT LATER
 
 use std::{fs, sync::Arc};
 
 use crate::commands::get_spells;
 use crate::prelude::*;
-use entities::{
-    damage_type::DamageType,
-    dice::Dice,
-    spell::{
-        self,
-        model::{
-            AreaEffect, AttackSave, CastTime, Duration, Range, Shape, Spell, SpellDice, SpellLevel,
-            SpellSchool,
-        },
-        persist::PersistSpell,
-        view::SpellView,
-    },
-    stats::Stats,
-};
+use entities::spell::view::SpellView;
 
-use sqlx::{
-    migrate::{MigrateDatabase, Migrator},
-    Sqlite, SqlitePool,
-};
+use sqlx::{migrate::MigrateDatabase, Sqlite, SqlitePool};
 use ts_rs::TS;
 
 mod commands;
@@ -41,7 +24,7 @@ const DB_URL: &'static str = "sqlite://runtime_res/sqlite.db";
 async fn main() -> Result<()> {
     let _ = SpellView::export_all_to(EXPORT_DIR);
 
-    fs::create_dir("runtime_res");
+    let _ = fs::create_dir("runtime_res");
 
     if !Sqlite::database_exists(DB_URL).await? {
         println!("Creating database {}", DB_URL);

@@ -1,4 +1,4 @@
-use sqlx::{FromRow, Pool, Sqlite};
+use sqlx::{Pool, Sqlite};
 
 use crate::entities::spell::persist::PersistSpell;
 
