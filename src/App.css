@@ -23,3 +23,8 @@
   flex-wrap: wrap;
   text-align: center;
 }
+
+.a-disable {
+  color: #f6f6f6;
+  text-decoration: none;
+}

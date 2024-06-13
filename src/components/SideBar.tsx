@@ -1,8 +1,7 @@
 import { Component } from "solid-js";
 import "../css/SideBar.css";
 import { A } from "@solidjs/router";
-import { VsHome } from "solid-icons/vs";
-import { BsMagic } from "solid-icons/bs";
+import { VsBook, VsHome } from "solid-icons/vs";
 
 const SideBar: Component<{}> = () => {
   return (
@@ -11,7 +10,7 @@ const SideBar: Component<{}> = () => {
         <VsHome size={40} />
       </A>
       <A href="/spells" class="icon" activeClass="icon-active">
-        <BsMagic size={40} />
+        <VsBook size={40} />
       </A>
     </div>
   );

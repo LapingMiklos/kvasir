@@ -3,6 +3,8 @@ import SpellCard from "../components/spell/SpellCard";
 import { GetSpells, PostSpell } from "../commands/spellCommands";
 import invokeCommand from "../commands/invokeCommand";
 import { SpellView } from "../types/ts-rs/SpellView";
+import { A } from "@solidjs/router";
+import "../App.css";
 
 const Spells: Component<{}> = () => {
   const [spells, setSpells] = createSignal<SpellView[]>([]);
@@ -48,7 +50,13 @@ const Spells: Component<{}> = () => {
 
   return (
     <div class="spells-container">
-      <For each={spells()}>{(spell) => <SpellCard spell={spell} />}</For>
+      <For each={spells()}>
+        {(spell) => (
+          <A class="a-disable" href={`/spells/${spell.id}`}>
+            <SpellCard spell={spell} />
+          </A>
+        )}
+      </For>
     </div>
   );
 };
