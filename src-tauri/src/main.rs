@@ -5,6 +5,7 @@ use std::{fs, sync::Arc};
 
 use crate::prelude::*;
 use commands::spells::{get_spells, post_spell};
+use dotenv_codegen::dotenv;
 use entities::spell::{create::CreateSpell, view::SpellView};
 
 use sqlx::{migrate::MigrateDatabase, Sqlite, SqlitePool};
@@ -19,10 +20,11 @@ mod repo;
 mod service;
 
 const EXPORT_DIR: &'static str = "../src/types/ts-rs";
-const DB_URL: &'static str = "sqlite://runtime_res/sqlite.db";
+const DB_URL: &'static str = dotenv!("DATABASE_URL");
 
 #[tokio::main]
 async fn main() -> Result<()> {
+    let _ = dotenv::dotenv();
     let _ = SpellView::export_all_to(EXPORT_DIR);
     let _ = CreateSpell::export_all_to(EXPORT_DIR);
 
