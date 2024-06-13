@@ -11,20 +11,22 @@ use super::CommandResponse;
 pub async fn get_spells(app: AppHandle<Wry>) -> CommandResponse<Vec<SpellView>> {
     let ctx = Context::from_app(&app);
 
-    match ctx.spell_service().find_all().await {
-        Ok(spells) => Ok(spells.into_iter().map(SpellView::from).collect()).into(),
-        Err(err) => Err(err).into(),
-    }
+    ctx.spell_service()
+        .find_all()
+        .await
+        .map(|spells| spells.into_iter().map(SpellView::from).collect())
+        .into()
 }
 
 #[tauri::command]
 pub async fn get_spell_by_id(app: AppHandle<Wry>, id: i64) -> CommandResponse<Option<SpellView>> {
     let ctx = Context::from_app(&app);
 
-    match ctx.spell_service().find_by_id(id).await {
-        Ok(spell) => Ok(spell.map(|s| s.into())).into(),
-        Err(err) => Err(err).into(),
-    }
+    ctx.spell_service()
+        .find_by_id(id)
+        .await
+        .map(|so| so.map(SpellView::from))
+        .into()
 }
 
 #[tauri::command]
