@@ -1,10 +1,13 @@
 import { Component, For, Match, Show, Switch, createSignal } from "solid-js";
 import { FaSolidFilter } from "solid-icons/fa";
 import { createQuery } from "@tanstack/solid-query";
+import { A } from "@solidjs/router";
+import { BiSolidBeer } from "solid-icons/bi";
 import SpellCard from "../components/spell/SpellCard";
 import "../css/spell/Spells.css";
 import invokeCommand from "../commands/invokeCommand.ts";
 import { GetSpells } from "../commands/spellCommands.ts";
+import "../App.css";
 
 const Spells: Component = () => {
   const spellsQuery = createQuery(() => ({
@@ -24,6 +27,9 @@ const Spells: Component = () => {
       <div>
         <FaSolidFilter size={30} onClick={() => setVisible(!visible())} />
       </div>
+      <A class="a-disable" href="/spells/form">
+        <BiSolidBeer size={30} />
+      </A>
       <div class="spells-container">
         <Switch>
           <Match when={spellsQuery.isPending}>Loading...</Match>
