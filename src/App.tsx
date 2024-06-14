@@ -3,18 +3,23 @@ import { Component, JSX } from "solid-js";
 import "./App.css";
 import SideBar from "./components/SideBar";
 import TitleBar from "./components/TitleBar";
+import { QueryClient, QueryClientProvider } from "@tanstack/solid-query";
+
+const queryClient = new QueryClient();
 
 const App: Component<{ children?: JSX.Element }> = (props) => {
   return (
-    <div
-      style={{ height: "100%", display: "flex", "flex-direction": "column" }}
-    >
-      <TitleBar />
-      <div style={{ display: "flex", flex: 1 }}>
-        <SideBar />
-        <div style={{ flex: 1 }}>{props.children}</div>
+    <QueryClientProvider client={queryClient}>
+      <div
+        style={{ height: "100%", display: "flex", "flex-direction": "column" }}
+      >
+        <TitleBar />
+        <div style={{ display: "flex", flex: 1 }}>
+          <SideBar />
+          <div style={{ flex: 1 }}>{props.children}</div>
+        </div>
       </div>
-    </div>
+    </QueryClientProvider>
   );
 };
 

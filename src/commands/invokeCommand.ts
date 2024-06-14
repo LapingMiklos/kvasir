@@ -27,9 +27,18 @@ const invokeCommand = async <
   T extends BaseCommand<string, InvokeArgs, unknown>,
 >(
   command: T[N],
-  args: T[A],
-): Promise<CommandResponse<T[R]>> => {
-  return invoke(command, args);
+  args: T[A]
+): Promise<T[R]> => {
+  try {
+    let res: CommandResponse<T[R]> = await invoke(command, args);
+    if (res.error !== null) {
+      throw new Error(res.error.message);
+    } else {
+      return res.result.data;
+    }
+  } catch (err) {
+    throw new Error("Incorrect or unimplemented command");
+  }
 };
 
 export default invokeCommand;
