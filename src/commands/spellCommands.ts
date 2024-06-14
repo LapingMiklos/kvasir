@@ -1,8 +1,12 @@
-import { CreateSpell } from "../types/ts-rs/CreateSpell";
-import { SpellView } from "../types/ts-rs/SpellView";
-import { BaseCommand } from "./invokeCommand";
+import { CreateSpell } from "../types/ts-rs/CreateSpell.ts";
+import { SpellView } from "../types/ts-rs/SpellView.ts";
+import { BaseCommand } from "./invokeCommand.ts";
 
-export type GetSpells = BaseCommand<"get_spells", {}, SpellView[]>;
+export type GetSpells = BaseCommand<
+  "get_spells",
+  Record<string, null>,
+  SpellView[]
+>;
 
 export type GetSpellById = BaseCommand<
   "get_spell_by_id",

@@ -23,15 +23,13 @@ export type CommandResponse<T> =
   | { error: null; result: CommandResult<T> }
   | { error: CommandError; result: null };
 
-const invokeCommand = async <T extends BaseCommand<string, InvokeArgs, any>>(
+const invokeCommand = async <
+  T extends BaseCommand<string, InvokeArgs, unknown>,
+>(
   command: T[N],
-  args: T[A]
+  args: T[A],
 ): Promise<CommandResponse<T[R]>> => {
-  try {
-    return await invoke(command, args);
-  } catch (err: any) {
-    return { error: { message: `Invoke error: ${err.message}` }, result: null };
-  }
+  return invoke(command, args);
 };
 
 export default invokeCommand;

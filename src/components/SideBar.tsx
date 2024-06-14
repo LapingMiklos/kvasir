@@ -3,7 +3,7 @@ import "../css/SideBar.css";
 import { A } from "@solidjs/router";
 import { VsBook, VsHome } from "solid-icons/vs";
 
-const SideBar: Component<{}> = () => {
+const SideBar: Component = () => {
   return (
     <div class="sidebar">
       <A href="/" class="icon" activeClass="icon-active" end>

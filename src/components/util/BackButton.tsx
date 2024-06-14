@@ -4,7 +4,7 @@ import { Component } from "solid-js";
 
 import "../../css/util/BackButton.css";
 
-const BackButton: Component<{}> = () => {
+const BackButton: Component = () => {
   return (
     <A href="../">
       <FaSolidArrowLeft size={30} class="back-button a-disable" />

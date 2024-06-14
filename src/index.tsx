@@ -1,7 +1,7 @@
 /* @refresh reload */
 import { render } from "solid-js/web";
-import App from "./App";
 import { Route, Router } from "@solidjs/router";
+import App from "./App";
 import Spells from "./routes/Spells";
 import Spell from "./routes/Spell";
 
@@ -13,5 +13,5 @@ render(
       <Route path="/spells/:id" component={Spell} />
     </Router>
   ),
-  document.getElementById("root") as HTMLElement
+  document.getElementById("root") as HTMLElement,
 );
