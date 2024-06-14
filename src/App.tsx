@@ -1,9 +1,9 @@
 // import logo from "./assets/logo.svg"
 import { Component, JSX } from "solid-js";
 import "./App.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/solid-query";
 import SideBar from "./components/SideBar";
 import TitleBar from "./components/TitleBar";
-import { QueryClient, QueryClientProvider } from "@tanstack/solid-query";
 
 const queryClient = new QueryClient();
 

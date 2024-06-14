@@ -27,10 +27,10 @@ const invokeCommand = async <
   T extends BaseCommand<string, InvokeArgs, unknown>,
 >(
   command: T[N],
-  args: T[A]
+  args: T[A],
 ): Promise<T[R]> => {
   try {
-    let res: CommandResponse<T[R]> = await invoke(command, args);
+    const res: CommandResponse<T[R]> = await invoke(command, args);
     if (res.error !== null) {
       throw new Error(res.error.message);
     } else {

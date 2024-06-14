@@ -1,15 +1,17 @@
 import { Component, For, Match, Show, Switch, createSignal } from "solid-js";
 import { FaSolidFilter } from "solid-icons/fa";
+import { createQuery } from "@tanstack/solid-query";
 import SpellCard from "../components/spell/SpellCard";
 import "../css/spell/Spells.css";
-import { createQuery } from "@tanstack/solid-query";
 import invokeCommand from "../commands/invokeCommand.ts";
 import { GetSpells } from "../commands/spellCommands.ts";
 
 const Spells: Component = () => {
   const spellsQuery = createQuery(() => ({
     queryKey: ["spells"],
-    queryFn: async () => invokeCommand<GetSpells>("get_spells", {}),
+    queryFn: async () => {
+      return invokeCommand<GetSpells>("get_spells", {});
+    },
   }));
 
   const [visible, setVisible] = createSignal(false);
