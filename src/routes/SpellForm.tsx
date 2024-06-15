@@ -8,6 +8,7 @@ import {
 } from "../utils/constants";
 import TextInput from "../components/util/form/TextInput";
 import NumericInput from "../components/util/form/NumericInput";
+import Selector from "../components/util/form/Selector";
 
 /* FIX TO THE UNDEFINED HOT REFRESH IS MOVING THE FIELD COMPONENTS WITHIN THE FORM COMPONENT */
 
@@ -69,19 +70,15 @@ const LevelField: Component<FormFieldProps> = ({ form }) => (
   <form.Field name="level">
     {(field) => (
       <>
-        <label for={field().name}>Spell Level:</label>
-        <select
-          id={field().name}
-          name={field().name}
-          value={field().state.value}
-          onBlur={field().handleBlur}
-          onInput={(e) => field().handleChange(Number(e.target.value))}
-        >
-          <option value={0}>Cantrip</option>
-          <For each={[1, 2, 3, 4, 5, 6, 7, 8, 9]}>
-            {(i) => <option value={i}>{`Level ${i}`}</option>}
-          </For>
-        </select>
+        <Selector
+          label="Spell Level"
+          field={field}
+          options={[
+            "cantrip",
+            ...[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => `level ${i}`),
+          ]}
+          handleSelect={(i) => field().handleChange(i)}
+        />
       </>
     )}
   </form.Field>
