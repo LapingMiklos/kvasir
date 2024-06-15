@@ -10,12 +10,8 @@ type SpellFormData = {
   description: string;
   atHigherLevel: string;
   level: number;
-  school:
-    | {
-        name: string;
-        custom: null;
-      }
-    | { name: "custom"; custom: string };
+  schoolName: string | "custom";
+  customSchoolName: string;
 };
 
 type FormFieldProps = {
@@ -114,22 +110,21 @@ const SchoolField: Component<FormFieldProps> = ({ form }) => {
 
   return (
     <>
-      <form.Field name="school">
+      <form.Field name="schoolName">
         {(field) => (
           <>
             <label for={field().name}>Spell School:</label>
             <select
               id={field().name}
               name={field().name}
-              value={field().state.value.name}
+              value={field().state.value}
               onBlur={field().handleBlur}
               onInput={(e) => {
                 const { value } = e.target;
+                field().handleChange(value);
                 if (value === "custom") {
-                  field().handleChange({ name: "custom", custom: "" });
                   setVisible(true);
                 } else {
-                  field().handleChange({ name: value, custom: null });
                   setVisible(false);
                 }
               }}
@@ -142,21 +137,16 @@ const SchoolField: Component<FormFieldProps> = ({ form }) => {
         )}
       </form.Field>
       <Show when={visible()}>
-        <form.Field name="school">
+        <form.Field name="customSchoolName">
           {(field) => (
             <>
               <label for={field().name}>Custom spell school name:</label>
               <input
                 id={field().name}
                 name={field().name}
-                value={field().state.value.custom ?? undefined}
+                value={field().state.value ?? ""}
                 onBlur={field().handleBlur}
-                onInput={(e) =>
-                  field().handleChange({
-                    name: "custom",
-                    custom: e.target.value,
-                  })
-                }
+                onInput={(e) => field().handleChange(e.target.value)}
               />
             </>
           )}
@@ -173,7 +163,8 @@ const SpellForm: Component = () => {
       description: "",
       atHigherLevel: "",
       level: 0,
-      school: { name: "abjuration", custom: null },
+      schoolName: "abjuration",
+      customSchoolName: "",
     },
     onSubmit: async ({ value }) => {
       console.log(value);
