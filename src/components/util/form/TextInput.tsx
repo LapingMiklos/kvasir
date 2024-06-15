@@ -8,27 +8,28 @@ type TextInputProps = (
   value?: string;
 };
 
-const TextInput: Component<TextInputProps> = ({
-  label,
-  field,
-  value,
-  handleChange,
-}) => {
+const TextInput: Component<TextInputProps> = (props) => {
   return (
     <>
-      <Show when={label !== undefined}>
-        <label for={field().name}>{label}</label>
+      <Show when={props.label !== undefined}>
+        <label for={props.field().name}>{props.label}</label>
       </Show>
       <input
-        id={field().name}
-        name={field().name}
-        value={value === undefined ? field().state.value : value}
-        onBlur={field().handleBlur}
-        onInput={
-          handleChange === undefined
-            ? (e) => field().handleChange(e.target.value)
-            : (e) => handleChange(e.target.value)
+        id={props.field().name}
+        name={props.field().name}
+        value={
+          props.value === undefined ? props.field().state.value : props.value
         }
+        onBlur={() => {
+          props.field().handleBlur();
+        }}
+        onInput={(e) => {
+          if (props.handleChange === undefined) {
+            props.field().handleChange(e.target.value);
+          } else {
+            props.handleChange(e.target.value);
+          }
+        }}
       />
     </>
   );

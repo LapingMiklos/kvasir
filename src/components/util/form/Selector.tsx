@@ -8,25 +8,20 @@ type SelectorPropT<T> = FormFieldProps<T> & {
 
 type SelectorProps = SelectorPropT<string> | SelectorPropT<number>;
 
-const Selector: Component<SelectorProps> = ({
-  field,
-  handleSelect,
-  label,
-  options,
-}) => {
+const Selector: Component<SelectorProps> = (props) => {
   return (
     <>
-      <Show when={label !== undefined}>
-        <label for={field().name}>{label}</label>
+      <Show when={props.label !== undefined}>
+        <label for={props.field().name}>{props.label}</label>
       </Show>
       <select
-        id={field().name}
-        name={field().name}
-        onBlur={field().handleBlur}
-        onInput={(e) => handleSelect(Number(e.target.value))}
+        id={props.field().name}
+        name={props.field().name}
+        onBlur={() => props.field().handleBlur}
+        onInput={(e) => props.handleSelect(Number(e.target.value))}
       >
-        <For each={options}>
-          {(label, i) => <option value={i()}>{label}</option>}
+        <For each={props.options}>
+          {(option, i) => <option value={i()}>{option}</option>}
         </For>
       </select>
     </>

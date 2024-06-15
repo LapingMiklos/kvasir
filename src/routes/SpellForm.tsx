@@ -1,6 +1,6 @@
 import { Component, For, Show, createSignal } from "solid-js";
-import BackButton from "../components/util/BackButton";
 import { FormApi, createForm } from "@tanstack/solid-form";
+import BackButton from "../components/util/BackButton";
 import {
   AREA_SHAPES,
   SPELL_RANGES,
@@ -31,8 +31,8 @@ type FormFieldProps = {
   form: FormApi<SpellFormData>;
 };
 // --- done
-const NameField: Component<FormFieldProps> = ({ form }) => (
-  <form.Field
+const NameField: Component<FormFieldProps> = (props) => (
+  <props.form.Field
     name="name"
     validators={{
       onChange: ({ value }) => {
@@ -41,12 +41,12 @@ const NameField: Component<FormFieldProps> = ({ form }) => (
     }}
   >
     {(field) => <TextInput field={field} label="Spell name" />}
-  </form.Field>
+  </props.form.Field>
 );
 
 // --- done
-const DescriptionField: Component<FormFieldProps> = ({ form }) => (
-  <form.Field
+const DescriptionField: Component<FormFieldProps> = (props) => (
+  <props.form.Field
     name="description"
     validators={{
       onChange: ({ value }) => {
@@ -55,19 +55,19 @@ const DescriptionField: Component<FormFieldProps> = ({ form }) => (
     }}
   >
     {(field) => <TextInput field={field} label="Description" />}
-  </form.Field>
+  </props.form.Field>
 );
 
 // --- change to use checkbox
-const AtHigherLevelField: Component<FormFieldProps> = ({ form }) => (
-  <form.Field name="atHigherLevel">
+const AtHigherLevelField: Component<FormFieldProps> = (props) => (
+  <props.form.Field name="atHigherLevel">
     {(field) => <TextInput field={field} label="At higher level" />}
-  </form.Field>
+  </props.form.Field>
 );
 
 // --- selector
-const LevelField: Component<FormFieldProps> = ({ form }) => (
-  <form.Field name="level">
+const LevelField: Component<FormFieldProps> = (props) => (
+  <props.form.Field name="level">
     {(field) => (
       <>
         <Selector
@@ -81,16 +81,16 @@ const LevelField: Component<FormFieldProps> = ({ form }) => (
         />
       </>
     )}
-  </form.Field>
+  </props.form.Field>
 );
 
 // --- selector
-const SchoolField: Component<FormFieldProps> = ({ form }) => {
+const SchoolField: Component<FormFieldProps> = (props) => {
   const [visible, setVisible] = createSignal(false);
 
   return (
     <>
-      <form.Field name="schoolName">
+      <props.form.Field name="schoolName">
         {(field) => (
           <>
             <label for={field().name}>Spell School:</label>
@@ -115,9 +115,9 @@ const SchoolField: Component<FormFieldProps> = ({ form }) => {
             </select>
           </>
         )}
-      </form.Field>
+      </props.form.Field>
       <Show when={visible()}>
-        <form.Field name="customSchoolName">
+        <props.form.Field name="customSchoolName">
           {(field) => (
             <TextInput
               field={field}
@@ -125,18 +125,18 @@ const SchoolField: Component<FormFieldProps> = ({ form }) => {
               value={field().state.value ?? ""}
             />
           )}
-        </form.Field>
+        </props.form.Field>
       </Show>
     </>
   );
 };
 
-const RangeField: Component<FormFieldProps> = ({ form }) => {
+const RangeField: Component<FormFieldProps> = (props) => {
   const [visible, setVisible] = createSignal(false);
 
   return (
     <>
-      <form.Field name="rangeType">
+      <props.form.Field name="rangeType">
         {(field) => (
           <>
             <label for={field().name}>Range:</label>
@@ -161,24 +161,24 @@ const RangeField: Component<FormFieldProps> = ({ form }) => {
             </select>
           </>
         )}
-      </form.Field>
+      </props.form.Field>
       <Show when={visible()}>
-        <form.Field name="rangeDistance">
+        <props.form.Field name="rangeDistance">
           {(field) => <NumericInput field={field} minVal={0} />}
-        </form.Field>
+        </props.form.Field>
       </Show>
     </>
   );
 };
 
-const AreaField: Component<FormFieldProps> = ({ form }) => {
+const AreaField: Component<FormFieldProps> = (props) => {
   const [visible, setVisible] = createSignal(false);
   const [customShapeFieldVisible, setCustomShapeFieldVisible] =
     createSignal(false);
 
   return (
     <>
-      <form.Field name="area">
+      <props.form.Field name="area">
         {(field) => (
           <>
             <label for={field().name}>Area:</label>
@@ -195,14 +195,14 @@ const AreaField: Component<FormFieldProps> = ({ form }) => {
             />
           </>
         )}
-      </form.Field>
+      </props.form.Field>
       <Show when={visible()}>
-        <form.Field name="areaSize">
+        <props.form.Field name="areaSize">
           {(field) => (
             <NumericInput field={field} label="Area size" minVal={0} />
           )}
-        </form.Field>
-        <form.Field name="areaShape">
+        </props.form.Field>
+        <props.form.Field name="areaShape">
           {(field) => (
             <>
               <label for={field().name}>Area shape</label>
@@ -227,9 +227,9 @@ const AreaField: Component<FormFieldProps> = ({ form }) => {
               </select>
             </>
           )}
-        </form.Field>
+        </props.form.Field>
         <Show when={customShapeFieldVisible()}>
-          <form.Field name="customAreaShape">
+          <props.form.Field name="customAreaShape">
             {(field) => (
               <TextInput
                 field={field}
@@ -237,7 +237,7 @@ const AreaField: Component<FormFieldProps> = ({ form }) => {
                 value={field().state.value ?? ""}
               />
             )}
-          </form.Field>
+          </props.form.Field>
         </Show>
       </Show>
     </>
@@ -256,7 +256,8 @@ const SpellForm: Component = () => {
       rangeDistance: 0,
       area: false,
     },
-    onSubmit: async ({ value }) => {
+    onSubmit: ({ value }) => {
+      // eslint-disable-next-line no-console
       console.log(value);
     },
   }));
@@ -268,7 +269,7 @@ const SpellForm: Component = () => {
         onSubmit={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          form.handleSubmit();
+          form.handleSubmit().catch(() => {});
         }}
       >
         <div
