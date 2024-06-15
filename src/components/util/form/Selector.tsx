@@ -9,6 +9,7 @@ type SelectorProps = (
 ) & {
   options: readonly string[];
   handleSelect: (i: number) => void;
+  handleChange?: undefined;
 };
 
 const Selector: Component<SelectorProps> = (props) => {

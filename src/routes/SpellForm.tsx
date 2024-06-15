@@ -9,13 +9,15 @@ import {
 import TextInput from "../components/util/form/TextInput";
 import NumericInput from "../components/util/form/NumericInput";
 import Selector from "../components/util/form/Selector";
+import Checkbox from "../components/util/form/Checkbox";
 
 /* FIX TO THE UNDEFINED HOT REFRESH IS MOVING THE FIELD COMPONENTS WITHIN THE FORM COMPONENT */
 
 type SpellFormData = {
   name: string;
   description: string;
-  atHigherLevel: string;
+  isScaling: boolean;
+  atHigherLevel?: string;
   level: number;
   schoolName: string;
   customSchoolName?: string;
@@ -57,12 +59,34 @@ const DescriptionField: Component<FormFieldProps> = (props) => (
   </props.form.Field>
 );
 
-// --- change to use checkbox
-const AtHigherLevelField: Component<FormFieldProps> = (props) => (
-  <props.form.Field name="atHigherLevel">
-    {(field) => <TextInput field={field} label="At higher level" />}
-  </props.form.Field>
-);
+const AtHigherLevelField: Component<FormFieldProps> = (props) => {
+  const [visible, setVisible] = createSignal(false);
+
+  return (
+    <>
+      <props.form.Field name="isScaling">
+        {(field) => (
+          <Checkbox
+            field={field}
+            onCheck={() => {
+              const isChecked = field().state.value;
+              setVisible(!isChecked);
+              field().handleChange(!isChecked);
+            }}
+            label="At higher level"
+          />
+        )}
+      </props.form.Field>
+      <Show when={visible()}>
+        <props.form.Field name="atHigherLevel">
+          {(field) => (
+            <TextInput field={field} value={field().state.value ?? ""} />
+          )}
+        </props.form.Field>
+      </Show>
+    </>
+  );
+};
 
 const LevelField: Component<FormFieldProps> = (props) => (
   <props.form.Field name="level">
@@ -163,20 +187,15 @@ const AreaField: Component<FormFieldProps> = (props) => {
     <>
       <props.form.Field name="area">
         {(field) => (
-          <>
-            <label for={field().name}>Area:</label>
-            <input
-              id={field().name}
-              type="checkbox"
-              checked={field().state.value}
-              name={field().name}
-              onBlur={field().handleBlur}
-              onChange={() => {
-                field().handleChange(!field().state.value);
-                setVisible(field().state.value);
-              }}
-            />
-          </>
+          <Checkbox
+            field={field}
+            onCheck={() => {
+              const isChecked = field().state.value;
+              field().handleChange(!isChecked);
+              setVisible(!isChecked);
+            }}
+            label="Area"
+          />
         )}
       </props.form.Field>
       <Show when={visible()}>
@@ -226,11 +245,10 @@ const SpellForm: Component = () => {
     defaultValues: {
       name: "",
       description: "",
-      atHigherLevel: "",
+      isScaling: false,
       level: 0,
       schoolName: "abjuration",
       rangeType: "self",
-      rangeDistance: 0,
       area: false,
     },
     onSubmit: ({ value }) => {
