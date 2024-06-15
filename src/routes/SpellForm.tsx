@@ -167,7 +167,7 @@ const RangeField: Component<FormFieldProps> = ({ form }) => {
       </form.Field>
       <Show when={visible()}>
         <form.Field name="rangeDistance">
-          {(field) => <NumericInput field={field} minVal={0} maxVal={5000} />}
+          {(field) => <NumericInput field={field} minVal={0} />}
         </form.Field>
       </Show>
     </>
@@ -202,17 +202,7 @@ const AreaField: Component<FormFieldProps> = ({ form }) => {
       <Show when={visible()}>
         <form.Field name="areaSize">
           {(field) => (
-            <>
-              <label for={field().name}>Area size</label>
-              <input
-                id={field().name}
-                type="number"
-                name={field().name}
-                value={field().state.value ?? 0}
-                onBlur={field().handleBlur}
-                onInput={(e) => field().handleChange(Number(e.target.value))}
-              />
-            </>
+            <NumericInput field={field} label="Area size" minVal={0} />
           )}
         </form.Field>
         <form.Field name="areaShape">
@@ -244,16 +234,11 @@ const AreaField: Component<FormFieldProps> = ({ form }) => {
         <Show when={customShapeFieldVisible()}>
           <form.Field name="customAreaShape">
             {(field) => (
-              <>
-                <label for={field().name}>Custom area shape:</label>
-                <input
-                  id={field().name}
-                  name={field().name}
-                  value={field().state.value ?? ""}
-                  onBlur={field().handleBlur}
-                  onInput={(e) => field().handleChange(e.target.value)}
-                />
-              </>
+              <TextInput
+                field={field}
+                label="Custom area shape"
+                value={field().state.value ?? ""}
+              />
             )}
           </form.Field>
         </Show>
@@ -270,7 +255,6 @@ const SpellForm: Component = () => {
       atHigherLevel: "",
       level: 0,
       schoolName: "abjuration",
-      customSchoolName: "",
       rangeType: "self",
       rangeDistance: 0,
       area: false,

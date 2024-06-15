@@ -38,7 +38,7 @@ const NumericInput: Component<NumericInputProps> = ({
       <input
         id={field().name}
         name={field().name}
-        value={field().state.value}
+        value={field().state.value ?? 0}
         onBlur={field().handleBlur}
         onInput={
           handleChange === undefined
