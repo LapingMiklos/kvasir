@@ -6,6 +6,8 @@ import {
   SPELL_RANGES,
   SPELL_SCHOOL_NAMES,
 } from "../utils/constants";
+import TextInput from "../components/util/form/TextInput";
+import NumericInput from "../components/util/form/NumericInput";
 
 /* FIX TO THE UNDEFINED HOT REFRESH IS MOVING THE FIELD COMPONENTS WITHIN THE FORM COMPONENT */
 
@@ -27,7 +29,7 @@ type SpellFormData = {
 type FormFieldProps = {
   form: FormApi<SpellFormData>;
 };
-
+// --- done
 const NameField: Component<FormFieldProps> = ({ form }) => (
   <form.Field
     name="name"
@@ -37,21 +39,11 @@ const NameField: Component<FormFieldProps> = ({ form }) => (
       },
     }}
   >
-    {(field) => (
-      <>
-        <label for={field().name}>Spell Name:</label>
-        <input
-          id={field().name}
-          name={field().name}
-          value={field().state.value}
-          onBlur={field().handleBlur}
-          onInput={(e) => field().handleChange(e.target.value)}
-        />
-      </>
-    )}
+    {(field) => <TextInput field={field} label="Spell name" />}
   </form.Field>
 );
 
+// --- done
 const DescriptionField: Component<FormFieldProps> = ({ form }) => (
   <form.Field
     name="description"
@@ -61,38 +53,18 @@ const DescriptionField: Component<FormFieldProps> = ({ form }) => (
       },
     }}
   >
-    {(field) => (
-      <>
-        <label for={field().name}>Description:</label>
-        <input
-          id={field().name}
-          name={field().name}
-          value={field().state.value}
-          onBlur={field().handleBlur}
-          onInput={(e) => field().handleChange(e.target.value)}
-        />
-      </>
-    )}
+    {(field) => <TextInput field={field} label="Description" />}
   </form.Field>
 );
 
+// --- change to use checkbox
 const AtHigherLevelField: Component<FormFieldProps> = ({ form }) => (
   <form.Field name="atHigherLevel">
-    {(field) => (
-      <>
-        <label for={field().name}>At higher level:</label>
-        <input
-          id={field().name}
-          name={field().name}
-          value={field().state.value}
-          onBlur={field().handleBlur}
-          onInput={(e) => field().handleChange(e.target.value)}
-        />
-      </>
-    )}
+    {(field) => <TextInput field={field} label="At higher level" />}
   </form.Field>
 );
 
+// --- selector
 const LevelField: Component<FormFieldProps> = ({ form }) => (
   <form.Field name="level">
     {(field) => (
@@ -115,6 +87,7 @@ const LevelField: Component<FormFieldProps> = ({ form }) => (
   </form.Field>
 );
 
+// --- selector
 const SchoolField: Component<FormFieldProps> = ({ form }) => {
   const [visible, setVisible] = createSignal(false);
 
@@ -149,16 +122,11 @@ const SchoolField: Component<FormFieldProps> = ({ form }) => {
       <Show when={visible()}>
         <form.Field name="customSchoolName">
           {(field) => (
-            <>
-              <label for={field().name}>Custom spell school name:</label>
-              <input
-                id={field().name}
-                name={field().name}
-                value={field().state.value ?? ""}
-                onBlur={field().handleBlur}
-                onInput={(e) => field().handleChange(e.target.value)}
-              />
-            </>
+            <TextInput
+              field={field}
+              label="Custom spell school name"
+              value={field().state.value ?? ""}
+            />
           )}
         </form.Field>
       </Show>
@@ -199,19 +167,7 @@ const RangeField: Component<FormFieldProps> = ({ form }) => {
       </form.Field>
       <Show when={visible()}>
         <form.Field name="rangeDistance">
-          {(field) => (
-            <>
-              <label for={field().name}>Custom spell school name:</label>
-              <input
-                id={field().name}
-                type="number"
-                name={field().name}
-                value={field().state.value ?? 0}
-                onBlur={field().handleBlur}
-                onInput={(e) => field().handleChange(Number(e.target.value))}
-              />
-            </>
-          )}
+          {(field) => <NumericInput field={field} minVal={0} maxVal={5000} />}
         </form.Field>
       </Show>
     </>
