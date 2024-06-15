@@ -1,4 +1,4 @@
-import { Component, For, Show, createSignal } from "solid-js";
+import { Component, Show, createSignal } from "solid-js";
 import { FormApi, createForm } from "@tanstack/solid-form";
 import BackButton from "../components/util/BackButton";
 import {
@@ -30,29 +30,28 @@ type SpellFormData = {
 type FormFieldProps = {
   form: FormApi<SpellFormData>;
 };
-// --- done
+
 const NameField: Component<FormFieldProps> = (props) => (
   <props.form.Field
     name="name"
-    validators={{
-      onChange: ({ value }) => {
-        return value.length === 0 ? "Name is required" : undefined;
-      },
-    }}
+    // validators={{
+    //   onChange: ({ value }) => {
+    //     return value.length === 0 ? "Name is required" : undefined;
+    //   },
+    // }}
   >
     {(field) => <TextInput field={field} label="Spell name" />}
   </props.form.Field>
 );
 
-// --- done
 const DescriptionField: Component<FormFieldProps> = (props) => (
   <props.form.Field
     name="description"
-    validators={{
-      onChange: ({ value }) => {
-        return value.length === 0 ? "Description is required" : undefined;
-      },
-    }}
+    // validators={{
+    //   onChange: ({ value }) => {
+    //     return value.length === 0 ? "Description is required" : undefined;
+    //   },
+    // }}
   >
     {(field) => <TextInput field={field} label="Description" />}
   </props.form.Field>
@@ -65,7 +64,6 @@ const AtHigherLevelField: Component<FormFieldProps> = (props) => (
   </props.form.Field>
 );
 
-// --- selector
 const LevelField: Component<FormFieldProps> = (props) => (
   <props.form.Field name="level">
     {(field) => (
@@ -84,7 +82,6 @@ const LevelField: Component<FormFieldProps> = (props) => (
   </props.form.Field>
 );
 
-// --- selector
 const SchoolField: Component<FormFieldProps> = (props) => {
   const [visible, setVisible] = createSignal(false);
 
@@ -93,14 +90,12 @@ const SchoolField: Component<FormFieldProps> = (props) => {
       <props.form.Field name="schoolName">
         {(field) => (
           <>
-            <label for={field().name}>Spell School:</label>
-            <select
-              id={field().name}
-              name={field().name}
-              value={field().state.value}
-              onBlur={field().handleBlur}
-              onInput={(e) => {
-                const { value } = e.target;
+            <Selector
+              field={field}
+              options={SPELL_SCHOOL_NAMES}
+              label="Spell School"
+              handleSelect={(i) => {
+                const value = SPELL_SCHOOL_NAMES[i];
                 field().handleChange(value);
                 if (value === "custom") {
                   setVisible(true);
@@ -108,11 +103,7 @@ const SchoolField: Component<FormFieldProps> = (props) => {
                   setVisible(false);
                 }
               }}
-            >
-              <For each={SPELL_SCHOOL_NAMES}>
-                {(school) => <option value={school}>{`${school}`}</option>}
-              </For>
-            </select>
+            />
           </>
         )}
       </props.form.Field>
@@ -138,33 +129,25 @@ const RangeField: Component<FormFieldProps> = (props) => {
     <>
       <props.form.Field name="rangeType">
         {(field) => (
-          <>
-            <label for={field().name}>Range:</label>
-            <select
-              id={field().name}
-              name={field().name}
-              value={field().state.value}
-              onBlur={field().handleBlur}
-              onInput={(e) => {
-                const { value } = e.target;
-                field().handleChange(value);
-                if (value === "ranged") {
-                  setVisible(true);
-                } else {
-                  setVisible(false);
-                }
-              }}
-            >
-              <For each={SPELL_RANGES}>
-                {(school) => <option value={school}>{`${school}`}</option>}
-              </For>
-            </select>
-          </>
+          <Selector
+            field={field}
+            options={SPELL_RANGES}
+            label="Range"
+            handleSelect={(i) => {
+              const value = SPELL_RANGES[i];
+              field().handleChange(value);
+              if (value === "ranged") {
+                setVisible(true);
+              } else {
+                setVisible(false);
+              }
+            }}
+          />
         )}
       </props.form.Field>
       <Show when={visible()}>
         <props.form.Field name="rangeDistance">
-          {(field) => <NumericInput field={field} minVal={0} />}
+          {(field) => <NumericInput field={field} minVal={0} maxVal={5000} />}
         </props.form.Field>
       </Show>
     </>
@@ -205,14 +188,12 @@ const AreaField: Component<FormFieldProps> = (props) => {
         <props.form.Field name="areaShape">
           {(field) => (
             <>
-              <label for={field().name}>Area shape</label>
-              <select
-                id={field().name}
-                name={field().name}
-                value={field().state.value ?? "cone"}
-                onBlur={field().handleBlur}
-                onInput={(e) => {
-                  const { value } = e.target;
+              <Selector
+                field={field}
+                options={AREA_SHAPES}
+                label="Area shape"
+                handleSelect={(i) => {
+                  const value = AREA_SHAPES[i];
                   field().handleChange(value);
                   if (value === "custom") {
                     setCustomShapeFieldVisible(true);
@@ -220,11 +201,7 @@ const AreaField: Component<FormFieldProps> = (props) => {
                     setCustomShapeFieldVisible(false);
                   }
                 }}
-              >
-                <For each={AREA_SHAPES}>
-                  {(item) => <option value={item}>{`${item}`}</option>}
-                </For>
-              </select>
+              />
             </>
           )}
         </props.form.Field>

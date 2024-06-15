@@ -10,8 +10,6 @@ export const SPELL_SCHOOL_NAMES = [
   "custom",
 ] as const;
 
-export type SpellSchoolName = (typeof SPELL_SCHOOL_NAMES)[number];
-
 export const SPELL_RANGES = [
   "self",
   "touch",

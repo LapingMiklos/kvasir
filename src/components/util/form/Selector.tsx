@@ -1,12 +1,15 @@
 import { Component, For, Show } from "solid-js";
 import { FormFieldProps } from "../../../types/field";
 
-type SelectorPropT<T> = FormFieldProps<T> & {
-  options: string[];
+type SelectorProps = (
+  | FormFieldProps<string>
+  | FormFieldProps<string | undefined>
+  | FormFieldProps<number>
+  | FormFieldProps<number | undefined>
+) & {
+  options: readonly string[];
   handleSelect: (i: number) => void;
 };
-
-type SelectorProps = SelectorPropT<string> | SelectorPropT<number>;
 
 const Selector: Component<SelectorProps> = (props) => {
   return (
