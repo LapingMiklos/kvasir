@@ -1,15 +1,10 @@
 import { Component, For, Show } from "solid-js";
 import { FormFieldProps } from "../../../types/field";
 
-type SelectorProps = (
-  | FormFieldProps<string>
-  | FormFieldProps<string | undefined>
-  | FormFieldProps<number>
-  | FormFieldProps<number | undefined>
-) & {
+type SelectorProps = FormFieldProps & {
+  value: number;
   options: readonly string[];
   handleSelect: (i: number) => void;
-  handleChange?: undefined;
 };
 
 const Selector: Component<SelectorProps> = (props) => {
@@ -19,6 +14,7 @@ const Selector: Component<SelectorProps> = (props) => {
         <label for={props.field().name}>{props.label}</label>
       </Show>
       <select
+        value={props.value}
         id={props.field().name}
         name={props.field().name}
         onBlur={() => props.field().handleBlur}

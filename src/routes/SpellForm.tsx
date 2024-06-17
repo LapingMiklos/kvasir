@@ -3,30 +3,35 @@ import { FormApi, createForm } from "@tanstack/solid-form";
 import BackButton from "../components/util/BackButton";
 import {
   AREA_SHAPES,
+  AreaShape,
   SPELL_RANGES,
   SPELL_SCHOOL_NAMES,
+  SpellRange,
+  SpellSchoolName,
 } from "../utils/constants";
 import TextInput from "../components/util/form/TextInput";
 import NumericInput from "../components/util/form/NumericInput";
 import Selector from "../components/util/form/Selector";
 import Checkbox from "../components/util/form/Checkbox";
 
-/* FIX TO THE UNDEFINED HOT REFRESH IS MOVING THE FIELD COMPONENTS WITHIN THE FORM COMPONENT */
-
 type SpellFormData = {
-  name: string;
-  description: string;
-  isScaling: boolean;
-  atHigherLevel?: string;
-  level: number;
-  schoolName: string;
-  customSchoolName?: string;
-  rangeType: string;
-  rangeDistance?: number;
-  area: boolean;
-  areaSize?: number;
-  areaShape?: string;
-  customAreaShape?: string;
+  name: string; // text -- req
+  description: string; // text -- req
+  isScaling: boolean; // checkbox
+  atHigherLevel?: string; // text if prev true
+  level: number; // select -- req
+  schoolName: SpellSchoolName; // select -- req
+  customSchoolName?: string; // text if prev == custom
+  rangeType: SpellRange; // select -- req
+  rangeDistance?: number; // number -- req if prev == ranged
+  area: boolean; // checkbox
+  areaSize?: number; // number -- req if prev true
+  areaShape?: AreaShape; // select -- req if prev is true
+  customAreaShape?: string; // text -- req if prev == custom
+  isVerbal: boolean; // checkbox
+  isSomatic: boolean; // checkbox
+  isMaterial: boolean; // checkbox
+  materials?: string; // req if prev is true
 };
 
 type FormFieldProps = {
@@ -60,7 +65,9 @@ const DescriptionField: Component<FormFieldProps> = (props) => (
 );
 
 const AtHigherLevelField: Component<FormFieldProps> = (props) => {
-  const [visible, setVisible] = createSignal(false);
+  const [visible, setVisible] = createSignal(
+    props.form.getFieldValue("isScaling")
+  );
 
   return (
     <>
@@ -93,6 +100,7 @@ const LevelField: Component<FormFieldProps> = (props) => (
     {(field) => (
       <>
         <Selector
+          value={field().state.value}
           label="Spell Level"
           field={field}
           options={[
@@ -107,7 +115,9 @@ const LevelField: Component<FormFieldProps> = (props) => (
 );
 
 const SchoolField: Component<FormFieldProps> = (props) => {
-  const [visible, setVisible] = createSignal(false);
+  const [visible, setVisible] = createSignal(
+    props.form.getFieldValue("schoolName") === "custom"
+  );
 
   return (
     <>
@@ -117,6 +127,7 @@ const SchoolField: Component<FormFieldProps> = (props) => {
             <Selector
               field={field}
               options={SPELL_SCHOOL_NAMES}
+              value={SPELL_SCHOOL_NAMES.indexOf(field().state.value)}
               label="Spell School"
               handleSelect={(i) => {
                 const value = SPELL_SCHOOL_NAMES[i];
@@ -147,7 +158,9 @@ const SchoolField: Component<FormFieldProps> = (props) => {
 };
 
 const RangeField: Component<FormFieldProps> = (props) => {
-  const [visible, setVisible] = createSignal(false);
+  const [visible, setVisible] = createSignal(
+    props.form.getFieldValue("rangeType") === "ranged"
+  );
 
   return (
     <>
@@ -156,6 +169,7 @@ const RangeField: Component<FormFieldProps> = (props) => {
           <Selector
             field={field}
             options={SPELL_RANGES}
+            value={SPELL_RANGES.indexOf(field().state.value)}
             label="Range"
             handleSelect={(i) => {
               const value = SPELL_RANGES[i];
@@ -179,9 +193,10 @@ const RangeField: Component<FormFieldProps> = (props) => {
 };
 
 const AreaField: Component<FormFieldProps> = (props) => {
-  const [visible, setVisible] = createSignal(false);
-  const [customShapeFieldVisible, setCustomShapeFieldVisible] =
-    createSignal(false);
+  const [visible, setVisible] = createSignal(props.form.getFieldValue("area"));
+  const [customShapeFieldVisible, setCustomShapeFieldVisible] = createSignal(
+    props.form.getFieldValue("areaShape") === "custom"
+  );
 
   return (
     <>
@@ -190,9 +205,15 @@ const AreaField: Component<FormFieldProps> = (props) => {
           <Checkbox
             field={field}
             onCheck={() => {
-              const isChecked = field().state.value;
-              field().handleChange(!isChecked);
-              setVisible(!isChecked);
+              const isChecked = !field().state.value;
+              field().handleChange(isChecked);
+              setVisible(isChecked);
+              if (isChecked) {
+                props.form.setFieldValue("areaShape", "cone");
+                setCustomShapeFieldVisible(
+                  props.form.getFieldValue("areaShape") === "custom"
+                );
+              }
             }}
             label="Area"
           />
@@ -210,6 +231,7 @@ const AreaField: Component<FormFieldProps> = (props) => {
               <Selector
                 field={field}
                 options={AREA_SHAPES}
+                value={AREA_SHAPES.indexOf(field().state.value ?? "cone")}
                 label="Area shape"
                 handleSelect={(i) => {
                   const value = AREA_SHAPES[i];
@@ -240,16 +262,66 @@ const AreaField: Component<FormFieldProps> = (props) => {
   );
 };
 
+const VerbalField: Component<FormFieldProps> = (props) => {
+  return (
+    <props.form.Field name="isVerbal">
+      {(field) => <Checkbox field={field} label="Verbal" />}
+    </props.form.Field>
+  );
+};
+
+const SomaticField: Component<FormFieldProps> = (props) => {
+  return (
+    <props.form.Field name="isSomatic">
+      {(field) => <Checkbox field={field} label="Somatic" />}
+    </props.form.Field>
+  );
+};
+
+const MaterialField: Component<FormFieldProps> = (props) => {
+  const [visible, setVisible] = createSignal(
+    props.form.getFieldValue("isMaterial")
+  );
+  return (
+    <>
+      <props.form.Field name="isMaterial">
+        {(field) => (
+          <Checkbox
+            field={field}
+            label="Material"
+            onCheck={() => {
+              const isChecked = field().state.value;
+              field().handleChange(!isChecked);
+              setVisible(!isChecked);
+            }}
+          />
+        )}
+      </props.form.Field>
+      <Show when={visible()}>
+        <props.form.Field name="materials">
+          {(field) => (
+            <TextInput field={field} value={field().state.value ?? ""} />
+          )}
+        </props.form.Field>
+      </Show>
+    </>
+  );
+};
+
 const SpellForm: Component = () => {
   const form = createForm<SpellFormData>(() => ({
     defaultValues: {
-      name: "",
-      description: "",
+      name: "default name",
+      description: "default description",
       isScaling: false,
-      level: 0,
-      schoolName: "abjuration",
+      level: 4,
+      schoolName: "custom",
       rangeType: "self",
       area: false,
+      isVerbal: false,
+      isSomatic: false,
+      isMaterial: false,
+      materials: "some material",
     },
     onSubmit: ({ value }) => {
       // eslint-disable-next-line no-console
@@ -281,6 +353,9 @@ const SpellForm: Component = () => {
           <SchoolField form={form} />
           <RangeField form={form} />
           <AreaField form={form} />
+          <VerbalField form={form} />
+          <SomaticField form={form} />
+          <MaterialField form={form} />
           <form.Subscribe>
             {(state) => (
               <button type="submit" disabled={!state().canSubmit}>
