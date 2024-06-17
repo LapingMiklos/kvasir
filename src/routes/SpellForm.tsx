@@ -4,6 +4,8 @@ import BackButton from "../components/util/BackButton";
 import {
   AREA_SHAPES,
   AreaShape,
+  CAST_TIMES,
+  CastTimeName,
   SPELL_RANGES,
   SPELL_SCHOOL_NAMES,
   SpellRange,
@@ -32,6 +34,8 @@ type SpellFormData = {
   isSomatic: boolean; // checkbox
   isMaterial: boolean; // checkbox
   materials?: string; // req if prev is true
+  castTime: CastTimeName;
+  customCastTime?: string;
 };
 
 type FormFieldProps = {
@@ -308,6 +312,43 @@ const MaterialField: Component<FormFieldProps> = (props) => {
   );
 };
 
+const CastTimeField: Component<FormFieldProps> = (props) => {
+  const [visible, setVisible] = createSignal(
+    props.form.getFieldValue("castTime") === "custom"
+  );
+
+  return (
+    <>
+      <props.form.Field name="castTime">
+        {(field) => (
+          <Selector
+            field={field}
+            options={CAST_TIMES}
+            value={CAST_TIMES.indexOf(field().state.value)}
+            label="Cast time"
+            handleSelect={(i) => {
+              const value = CAST_TIMES[i];
+              field().handleChange(value);
+              if (value === "custom") {
+                setVisible(true);
+              } else {
+                setVisible(false);
+              }
+            }}
+          />
+        )}
+      </props.form.Field>
+      <Show when={visible()}>
+        <props.form.Field name="customCastTime">
+          {(field) => (
+            <TextInput field={field} value={field().state.value ?? ""} />
+          )}
+        </props.form.Field>
+      </Show>
+    </>
+  );
+};
+
 const SpellForm: Component = () => {
   const form = createForm<SpellFormData>(() => ({
     defaultValues: {
@@ -322,6 +363,7 @@ const SpellForm: Component = () => {
       isSomatic: false,
       isMaterial: false,
       materials: "some material",
+      castTime: "action",
     },
     onSubmit: ({ value }) => {
       // eslint-disable-next-line no-console
@@ -356,6 +398,7 @@ const SpellForm: Component = () => {
           <VerbalField form={form} />
           <SomaticField form={form} />
           <MaterialField form={form} />
+          <CastTimeField form={form} />
           <form.Subscribe>
             {(state) => (
               <button type="submit" disabled={!state().canSubmit}>

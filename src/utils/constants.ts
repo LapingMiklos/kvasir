@@ -33,3 +33,12 @@ export const AREA_SHAPES = [
 ] as const;
 
 export type AreaShape = (typeof AREA_SHAPES)[number];
+
+export const CAST_TIMES = [
+  "action",
+  "bonus action",
+  "reaction",
+  "custom",
+] as const;
+
+export type CastTimeName = (typeof CAST_TIMES)[number];
