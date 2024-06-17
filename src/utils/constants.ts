@@ -42,3 +42,13 @@ export const CAST_TIMES = [
 ] as const;
 
 export type CastTimeName = (typeof CAST_TIMES)[number];
+
+export const DURATIONS = [
+  "instantaneous",
+  "min",
+  "hour",
+  "day",
+  "custom",
+] as const;
+
+export type DurationType = (typeof DURATIONS)[number];

@@ -6,6 +6,8 @@ import {
   AreaShape,
   CAST_TIMES,
   CastTimeName,
+  DURATIONS,
+  DurationType,
   SPELL_RANGES,
   SPELL_SCHOOL_NAMES,
   SpellRange,
@@ -36,6 +38,9 @@ type SpellFormData = {
   materials?: string; // req if prev is true
   castTime: CastTimeName;
   customCastTime?: string;
+  durationType: DurationType;
+  duration?: number;
+  customDuration?: string;
 };
 
 type FormFieldProps = {
@@ -349,6 +354,62 @@ const CastTimeField: Component<FormFieldProps> = (props) => {
   );
 };
 
+const DurationField: Component<FormFieldProps> = (props) => {
+  const [durationVisible, setDurationVisible] = createSignal(
+    props.form.getFieldValue("durationType") === "min" ||
+      props.form.getFieldValue("durationType") === "day" ||
+      props.form.getFieldValue("durationType") === "hour"
+  );
+  const [customVisible, setCustomVisible] = createSignal(
+    props.form.getFieldValue("durationType") === "custom"
+  );
+
+  return (
+    <>
+      <props.form.Field name="durationType">
+        {(field) => (
+          <Selector
+            field={field}
+            options={DURATIONS}
+            value={DURATIONS.indexOf(field().state.value)}
+            label="Duration"
+            handleSelect={(i) => {
+              const value = DURATIONS[i];
+              field().handleChange(value);
+              if (value === "min" || value === "hour" || value === "day") {
+                setDurationVisible(true);
+                if (props.form.getFieldValue("duration") === undefined) {
+                  props.form.setFieldValue("duration", 1);
+                }
+              } else {
+                setDurationVisible(false);
+              }
+
+              if (value === "custom") {
+                setCustomVisible(true);
+              } else {
+                setCustomVisible(false);
+              }
+            }}
+          />
+        )}
+      </props.form.Field>
+      <Show when={durationVisible()}>
+        <props.form.Field name="duration">
+          {(field) => <NumericInput field={field} minVal={0} />}
+        </props.form.Field>
+      </Show>
+      <Show when={customVisible()}>
+        <props.form.Field name="customDuration">
+          {(field) => (
+            <TextInput field={field} value={field().state.value ?? ""} />
+          )}
+        </props.form.Field>
+      </Show>
+    </>
+  );
+};
+
 const SpellForm: Component = () => {
   const form = createForm<SpellFormData>(() => ({
     defaultValues: {
@@ -364,6 +425,7 @@ const SpellForm: Component = () => {
       isMaterial: false,
       materials: "some material",
       castTime: "action",
+      durationType: "instantaneous",
     },
     onSubmit: ({ value }) => {
       // eslint-disable-next-line no-console
@@ -399,6 +461,7 @@ const SpellForm: Component = () => {
           <SomaticField form={form} />
           <MaterialField form={form} />
           <CastTimeField form={form} />
+          <DurationField form={form} />
           <form.Subscribe>
             {(state) => (
               <button type="submit" disabled={!state().canSubmit}>
