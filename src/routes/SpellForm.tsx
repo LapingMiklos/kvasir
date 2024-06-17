@@ -3,15 +3,19 @@ import { FormApi, createForm } from "@tanstack/solid-form";
 import BackButton from "../components/util/BackButton";
 import {
   AREA_SHAPES,
+  ATTACK_SAVE_TYPES,
   AreaShape,
+  AttackSaveType,
   CAST_TIMES,
   CastTimeName,
   DURATIONS,
   DurationType,
   SPELL_RANGES,
   SPELL_SCHOOL_NAMES,
+  STATS,
   SpellRange,
   SpellSchoolName,
+  Stat,
 } from "../utils/constants";
 import TextInput from "../components/util/form/TextInput";
 import NumericInput from "../components/util/form/NumericInput";
@@ -42,6 +46,8 @@ type SpellFormData = {
   duration?: number;
   customDuration?: string;
   effect: string;
+  attackSaveType: AttackSaveType;
+  saveStat?: Stat;
 };
 
 type FormFieldProps = {
@@ -417,6 +423,52 @@ const EffectField: Component<FormFieldProps> = (props) => (
   </props.form.Field>
 );
 
+const AttackSaveField: Component<FormFieldProps> = (props) => {
+  const [visible, setVisible] = createSignal(
+    props.form.getFieldValue("attackSaveType") === "save"
+  );
+
+  return (
+    <>
+      <props.form.Field name="attackSaveType">
+        {(field) => (
+          <Selector
+            field={field}
+            options={ATTACK_SAVE_TYPES}
+            value={ATTACK_SAVE_TYPES.indexOf(field().state.value)}
+            label="Attack/Save"
+            handleSelect={(i) => {
+              const value = ATTACK_SAVE_TYPES[i];
+              field().handleChange(value);
+              if (value === "save") {
+                setVisible(true);
+                props.form.setFieldValue("saveStat", "STR");
+              } else {
+                setVisible(false);
+              }
+            }}
+          />
+        )}
+      </props.form.Field>
+      <Show when={visible()}>
+        <props.form.Field name="saveStat">
+          {(field) => (
+            <Selector
+              field={field}
+              options={STATS}
+              value={STATS.indexOf(field().state.value ?? "STR")}
+              handleSelect={(i) => {
+                const value = STATS[i];
+                field().handleChange(value);
+              }}
+            />
+          )}
+        </props.form.Field>
+      </Show>
+    </>
+  );
+};
+
 const SpellForm: Component = () => {
   const form = createForm<SpellFormData>(() => ({
     defaultValues: {
@@ -434,6 +486,7 @@ const SpellForm: Component = () => {
       castTime: "action",
       durationType: "instantaneous",
       effect: "",
+      attackSaveType: "ranged",
     },
     onSubmit: ({ value }) => {
       // eslint-disable-next-line no-console
@@ -471,6 +524,7 @@ const SpellForm: Component = () => {
           <CastTimeField form={form} />
           <DurationField form={form} />
           <EffectField form={form} />
+          <AttackSaveField form={form} />
 
           <form.Subscribe>
             {(state) => (

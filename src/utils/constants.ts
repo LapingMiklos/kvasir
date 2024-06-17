@@ -52,3 +52,11 @@ export const DURATIONS = [
 ] as const;
 
 export type DurationType = (typeof DURATIONS)[number];
+
+export const ATTACK_SAVE_TYPES = ["none", "melee", "ranged", "save"] as const;
+
+export type AttackSaveType = (typeof ATTACK_SAVE_TYPES)[number];
+
+export const STATS = ["STR", "DEX", "CON", "INT", "WIS", "CHA"] as const;
+
+export type Stat = (typeof STATS)[number];
