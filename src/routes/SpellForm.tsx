@@ -41,6 +41,7 @@ type SpellFormData = {
   durationType: DurationType;
   duration?: number;
   customDuration?: string;
+  effect: string;
 };
 
 type FormFieldProps = {
@@ -410,6 +411,12 @@ const DurationField: Component<FormFieldProps> = (props) => {
   );
 };
 
+const EffectField: Component<FormFieldProps> = (props) => (
+  <props.form.Field name="effect">
+    {(field) => <TextInput field={field} label="Main effect" />}
+  </props.form.Field>
+);
+
 const SpellForm: Component = () => {
   const form = createForm<SpellFormData>(() => ({
     defaultValues: {
@@ -426,6 +433,7 @@ const SpellForm: Component = () => {
       materials: "some material",
       castTime: "action",
       durationType: "instantaneous",
+      effect: "",
     },
     onSubmit: ({ value }) => {
       // eslint-disable-next-line no-console
@@ -462,6 +470,8 @@ const SpellForm: Component = () => {
           <MaterialField form={form} />
           <CastTimeField form={form} />
           <DurationField form={form} />
+          <EffectField form={form} />
+
           <form.Subscribe>
             {(state) => (
               <button type="submit" disabled={!state().canSubmit}>
