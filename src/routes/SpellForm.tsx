@@ -22,7 +22,7 @@ import NumericInput from "../components/util/form/NumericInput";
 import Selector from "../components/util/form/Selector";
 import Checkbox from "../components/util/form/Checkbox";
 
-type SpellFormData = {
+export type SpellFormData = {
   name: string; // text -- req
   description: string; // text -- req
   isScaling: boolean; // checkbox
@@ -53,17 +53,16 @@ type SpellFormData = {
 const SpellForm: Component = () => {
   const form = createForm<SpellFormData>(() => ({
     defaultValues: {
-      name: "default name",
-      description: "default description",
+      name: "",
+      description: "",
       isScaling: false,
       level: 4,
       schoolName: "custom",
-      rangeType: "self",
+      rangeType: "user",
       area: false,
       isVerbal: false,
       isSomatic: false,
       isMaterial: false,
-      materials: "some material",
       castTime: "action",
       durationType: "instantaneous",
       effect: "",

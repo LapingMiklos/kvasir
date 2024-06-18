@@ -4,7 +4,5 @@ import type { AttackSave } from "./AttackSave";
 import type { CastTime } from "./CastTime";
 import type { Duration } from "./Duration";
 import type { Range } from "./Range";
-import type { SpellLevel } from "./SpellLevel";
-import type { SpellSchool } from "./SpellSchool";
 
-export type CreateSpell = { name: string, description: string, atHigherLevel: string | null, level: SpellLevel, school: SpellSchool, range: Range, area: AreaEffect | null, isVerbal: boolean, isSomatic: boolean, materials: string | null, castTime: CastTime, duration: Duration, effect: string, hasMultipleEffects: boolean, attackSave: AttackSave, };
+export type CreateSpell = { name: string, description: string, atHigherLevel: string | null, level: number, school: string, range: Range, area: AreaEffect | null, isVerbal: boolean, isSomatic: boolean, materials: string | null, castTime: CastTime, duration: Duration, effect: string, hasMultipleEffects: boolean, attackSave: AttackSave, };

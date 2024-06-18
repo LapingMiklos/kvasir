@@ -13,7 +13,7 @@ export const SPELL_SCHOOL_NAMES = [
 export type SpellSchoolName = (typeof SPELL_SCHOOL_NAMES)[number];
 
 export const SPELL_RANGES = [
-  "self",
+  "user",
   "touch",
   "ranged",
   "sight",
