@@ -1,10 +1,12 @@
 import { Component, Show } from "solid-js";
 import { FormFieldProps } from "../../../types/field";
 
-type NumericInputProps = (
-  | FormFieldProps<number>
-  | FormFieldProps<number | undefined>
-) & { maxVal?: number; minVal?: number };
+type NumericInputProps = FormFieldProps & {
+  maxVal?: number;
+  minVal?: number;
+  value: number;
+  handleChange?: (value: number) => void;
+};
 
 const NumericInput: Component<NumericInputProps> = (props) => {
   const toNum = (value: string) => {
@@ -32,7 +34,7 @@ const NumericInput: Component<NumericInputProps> = (props) => {
       <input
         id={props.field().name}
         name={props.field().name}
-        value={props.field().state.value ?? 0}
+        value={props.value}
         onBlur={() => {
           props.field().handleBlur();
         }}

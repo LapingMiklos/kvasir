@@ -2,7 +2,7 @@ import { Component, Show } from "solid-js";
 import { FormFieldProps } from "../../../types/field";
 
 type CheckboxProps = FormFieldProps & {
-  value?: boolean;
+  value: boolean;
   onCheck?: () => void;
 };
 
@@ -13,9 +13,7 @@ const Checkbox: Component<CheckboxProps> = (props) => {
         <label for={props.field().name}>{props.label}</label>
       </Show>
       <input
-        checked={
-          props.value === undefined ? props.field().state.value : props.value
-        }
+        checked={props.value}
         id={props.field().name}
         type="checkbox"
         name={props.field().name}

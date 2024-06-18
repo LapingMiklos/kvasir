@@ -2,7 +2,7 @@ import { Component, Show } from "solid-js";
 import { FormFieldProps } from "../../../types/field";
 
 type TextInputProps = FormFieldProps & {
-  value?: string;
+  value: string;
   handleChange?: (value: string) => void;
 };
 
@@ -15,14 +15,11 @@ const TextInput: Component<TextInputProps> = (props) => {
       <input
         id={props.field().name}
         name={props.field().name}
-        value={
-          props.value === undefined ? props.field().state.value : props.value
-        }
+        value={props.value}
         onBlur={() => {
           props.field().handleBlur();
         }}
         onInput={(e) => {
-          console.log("This ran");
           if (e.target.value === undefined) {
             return;
           }
