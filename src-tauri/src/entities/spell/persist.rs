@@ -12,7 +12,7 @@ pub struct PersistSpell {
     pub at_higher_level: Option<String>,
     pub level: i64,
     pub school: String,
-    pub range: i64,
+    pub range: String,
     pub area_size: Option<i64>,
     pub area_shape: Option<String>,
     pub is_verbal: bool,
@@ -32,7 +32,6 @@ impl TryFrom<Spell> for PersistSpell {
     fn try_from(spell: Spell) -> Result<PersistSpell> {
         let (duration_type, duration) = spell.duration.into();
         let level: u8 = spell.level.into();
-        let range: u32 = spell.range.into();
 
         Ok(PersistSpell {
             id: spell.id,
@@ -42,7 +41,7 @@ impl TryFrom<Spell> for PersistSpell {
             at_higher_level: spell.at_higher_level,
             level: level as i64,
             school: spell.school.into(),
-            range: range as i64,
+            range: serde_json::to_string(&spell.range)?,
             area_size: spell.area.as_ref().map(|a| a.size as i64),
             area_shape: spell.area.map(|a| a.shape.into()),
             is_verbal: spell.is_verbal,
@@ -70,7 +69,7 @@ impl TryInto<Spell> for PersistSpell {
             at_higher_level: self.at_higher_level,
             level: (self.level as u8).into(),
             school: self.school.into(),
-            range: (self.range as u32).into(),
+            range: serde_json::from_str(&self.range)?,
             area: self
                 .area_size
                 .zip(self.area_shape)

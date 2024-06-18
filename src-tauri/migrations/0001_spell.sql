@@ -6,7 +6,7 @@ CREATE TABLE Spells (
     at_higher_level TEXT,
     level INTEGER NOT NULL,
     school TEXT NOT NULL,
-    range INTEGER NOT NULL,
+    range TEXT NOT NULL,
     area_size INTEGER,
     area_shape TEXT,
     is_verbal BOOLEAN NOT NULL,

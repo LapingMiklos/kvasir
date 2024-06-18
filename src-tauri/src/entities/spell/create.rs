@@ -10,7 +10,6 @@ use super::model::{
 #[serde(rename_all = "camelCase")]
 pub struct CreateSpell {
     pub name: String,
-    pub icon_url: Option<String>,
     pub description: String,
     pub at_higher_level: Option<String>,
     pub level: SpellLevel,
@@ -33,7 +32,7 @@ impl Into<Spell> for CreateSpell {
         Spell {
             id: -1,
             name: self.name,
-            icon_url: self.icon_url,
+            icon_url: None,
             description: self.description,
             at_higher_level: self.at_higher_level,
             level: self.level,

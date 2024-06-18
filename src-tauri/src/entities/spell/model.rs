@@ -109,41 +109,32 @@ impl From<String> for SpellSchool {
 
 // region: ---Range
 
-#[derive(Debug, Clone, Copy, Deserialize, TS)]
+#[derive(Debug, Clone, Copy, Deserialize, Serialize, TS)]
 #[ts(export)]
 #[serde(rename_all = "camelCase")]
 pub enum Range {
     User,
-    Distance(u32),
+    Touch,
+    Sight,
+    Unlimited,
+    Ranged(u32),
 }
 
 impl Range {
     const SELF: &'static str = "self";
-}
-
-impl Into<u32> for Range {
-    fn into(self) -> u32 {
-        match self {
-            Self::User => 0,
-            Self::Distance(d) => d,
-        }
-    }
-}
-
-impl From<u32> for Range {
-    fn from(value: u32) -> Self {
-        match value {
-            0 => Self::User,
-            _ => Self::Distance(value),
-        }
-    }
+    const TOUCH: &'static str = "touch";
+    const SIGHT: &'static str = "sight";
+    const UNLIMITED: &'static str = "unlimited";
 }
 
 impl From<Range> for String {
     fn from(value: Range) -> String {
         match value {
             Range::User => Range::SELF.into(),
-            Range::Distance(d) => format!("{} ft", d),
+            Range::Touch => Range::TOUCH.into(),
+            Range::Sight => Range::SIGHT.into(),
+            Range::Unlimited => Range::UNLIMITED.into(),
+            Range::Ranged(d) => format!("{} ft", d),
         }
     }
 }
