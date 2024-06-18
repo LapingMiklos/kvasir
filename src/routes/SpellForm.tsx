@@ -26,6 +26,7 @@ import { CreateSpell } from "../types/ts-rs/CreateSpell";
 import invokeCommand from "../commands/invokeCommand";
 import { PostSpell } from "../commands/spellCommands";
 import toCreateSpell from "../utils/mapping/toCreateSpell";
+import { notEmpty } from "../utils/form/validation";
 
 export type SpellFormData = {
   name: string; // text -- req
@@ -94,11 +95,11 @@ const SpellForm: Component = () => {
   const NameField: Component = () => (
     <form.Field
       name="name"
-      // validators={{
-      //   onChange: ({ value }) => {
-      //     return value.length === 0 ? "Name is required" : undefined;
-      //   },
-      // }}
+      validators={{
+        onChange: ({ value }) => {
+          return notEmpty(value);
+        },
+      }}
     >
       {(field) => (
         <TextInput
@@ -113,11 +114,11 @@ const SpellForm: Component = () => {
   const DescriptionField: Component = () => (
     <form.Field
       name="description"
-      // validators={{
-      //   onChange: ({ value }) => {
-      //     return value.length === 0 ? "Description is required" : undefined;
-      //   },
-      // }}
+      validators={{
+        onChange: ({ value }) => {
+          return notEmpty(value);
+        },
+      }}
     >
       {(field) => (
         <TextInput
@@ -149,7 +150,14 @@ const SpellForm: Component = () => {
           )}
         </form.Field>
         <Show when={visible()}>
-          <form.Field name="atHigherLevel">
+          <form.Field
+            name="atHigherLevel"
+            validators={{
+              onChange: ({ value }) => {
+                return notEmpty(value);
+              },
+            }}
+          >
             {(field) => (
               <TextInput field={field} value={field().state.value ?? ""} />
             )}
@@ -207,7 +215,14 @@ const SpellForm: Component = () => {
           )}
         </form.Field>
         <Show when={visible()}>
-          <form.Field name="customSchoolName">
+          <form.Field
+            name="customSchoolName"
+            validators={{
+              onChange: ({ value }) => {
+                return notEmpty(value);
+              },
+            }}
+          >
             {(field) => (
               <TextInput
                 field={field}
@@ -324,7 +339,14 @@ const SpellForm: Component = () => {
             )}
           </form.Field>
           <Show when={customShapeFieldVisible()}>
-            <form.Field name="customAreaShape">
+            <form.Field
+              name="customAreaShape"
+              validators={{
+                onChange: ({ value }) => {
+                  return notEmpty(value);
+                },
+              }}
+            >
               {(field) => (
                 <TextInput
                   field={field}
@@ -380,7 +402,14 @@ const SpellForm: Component = () => {
           )}
         </form.Field>
         <Show when={visible()}>
-          <form.Field name="materials">
+          <form.Field
+            name="materials"
+            validators={{
+              onChange: ({ value }) => {
+                return notEmpty(value);
+              },
+            }}
+          >
             {(field) => (
               <TextInput field={field} value={field().state.value ?? ""} />
             )}
@@ -417,7 +446,14 @@ const SpellForm: Component = () => {
           )}
         </form.Field>
         <Show when={visible()}>
-          <form.Field name="customCastTime">
+          <form.Field
+            name="customCastTime"
+            validators={{
+              onChange: ({ value }) => {
+                return notEmpty(value);
+              },
+            }}
+          >
             {(field) => (
               <TextInput field={field} value={field().state.value ?? ""} />
             )}
@@ -479,7 +515,14 @@ const SpellForm: Component = () => {
           </form.Field>
         </Show>
         <Show when={customVisible()}>
-          <form.Field name="customDuration">
+          <form.Field
+            name="customDuration"
+            validators={{
+              onChange: ({ value }) => {
+                return notEmpty(value);
+              },
+            }}
+          >
             {(field) => (
               <TextInput field={field} value={field().state.value ?? ""} />
             )}
@@ -490,7 +533,14 @@ const SpellForm: Component = () => {
   };
 
   const EffectField: Component = () => (
-    <form.Field name="effect">
+    <form.Field
+      name="effect"
+      validators={{
+        onChange: ({ value }) => {
+          return notEmpty(value);
+        },
+      }}
+    >
       {(field) => (
         <TextInput
           value={field().state.value}
