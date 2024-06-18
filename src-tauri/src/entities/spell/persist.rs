@@ -19,8 +19,7 @@ pub struct PersistSpell {
     pub is_somatic: bool,
     pub materials: Option<String>,
     pub cast_time: String,
-    pub duration_type: String,
-    pub duration: i64,
+    pub duration: String,
     pub effect: String,
     pub has_multiple_effects: bool,
     pub attack_save: String,
@@ -30,7 +29,6 @@ pub struct PersistSpell {
 impl TryFrom<Spell> for PersistSpell {
     type Error = Error;
     fn try_from(spell: Spell) -> Result<PersistSpell> {
-        let (duration_type, duration) = spell.duration.into();
         let level: u8 = spell.level.into();
 
         Ok(PersistSpell {
@@ -48,8 +46,7 @@ impl TryFrom<Spell> for PersistSpell {
             is_somatic: spell.is_somatic,
             materials: spell.materials,
             cast_time: spell.cast_time.into(),
-            duration_type,
-            duration: duration as i64,
+            duration: serde_json::to_string(&spell.duration)?,
             effect: spell.effect,
             has_multiple_effects: spell.has_multiple_effects,
             attack_save: spell.attack_save.into(),
@@ -81,7 +78,7 @@ impl TryInto<Spell> for PersistSpell {
             is_somatic: self.is_somatic,
             materials: self.materials,
             cast_time: self.cast_time.into(),
-            duration: (self.duration_type, self.duration as u8).try_into()?,
+            duration: serde_json::from_str(&self.duration)?,
             effect: self.effect,
             has_multiple_effects: self.has_multiple_effects,
             attack_save: self.attack_save.try_into()?,

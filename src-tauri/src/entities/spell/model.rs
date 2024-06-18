@@ -232,7 +232,7 @@ impl From<String> for CastTime {
 
 // region: ---Duration
 
-#[derive(Debug, Clone, Deserialize, TS)]
+#[derive(Debug, Clone, Deserialize, Serialize, TS)]
 #[ts(export)]
 #[serde(rename_all = "camelCase")]
 pub enum Duration {
@@ -240,17 +240,7 @@ pub enum Duration {
     Min(u8),
     Hour(u8),
     Day(u8),
-}
-
-impl Into<(String, u8)> for Duration {
-    fn into(self) -> (String, u8) {
-        match self {
-            Self::Instantaneous => ("Instantaneous".into(), 0),
-            Self::Min(m) => ("Min".into(), m),
-            Self::Hour(h) => ("Hour".into(), h),
-            Self::Day(d) => ("Day".into(), d),
-        }
-    }
+    Custom(String),
 }
 
 impl Into<String> for Duration {
@@ -260,22 +250,7 @@ impl Into<String> for Duration {
             Self::Min(m) => format!("{} min", m),
             Self::Hour(h) => format!("{} hour", h),
             Self::Day(d) => format!("{} day", d),
-        }
-    }
-}
-
-impl TryFrom<(String, u8)> for Duration {
-    type Error = Error;
-    fn try_from((duration_type, duration): (String, u8)) -> Result<Self> {
-        match duration_type.as_str() {
-            "Instantaneous" => Ok(Self::Instantaneous),
-            "Min" => Ok(Self::Min(duration)),
-            "Hour" => Ok(Self::Hour(duration)),
-            "Day" => Ok(Self::Day(duration)),
-            _ => Err(Error::Mapping(format!(
-                "Unable to convert {} {}",
-                duration_type, duration
-            ))),
+            Self::Custom(s) => s,
         }
     }
 }
