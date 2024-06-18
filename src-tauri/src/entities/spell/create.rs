@@ -2,7 +2,7 @@ use serde::Deserialize;
 use ts_rs::TS;
 
 use super::model::{
-    AreaEffect, AttackSave, CastTime, Duration, Range, Spell, SpellDice, SpellLevel, SpellSchool,
+    AreaEffect, AttackSave, CastTime, Duration, Range, Spell, SpellLevel, SpellSchool,
 };
 
 #[derive(Debug, Clone, Deserialize, TS)]
@@ -24,7 +24,6 @@ pub struct CreateSpell {
     pub effect: String,
     pub has_multiple_effects: bool,
     pub attack_save: AttackSave,
-    pub spell_dice: Vec<SpellDice>,
 }
 
 impl Into<Spell> for CreateSpell {
@@ -47,7 +46,7 @@ impl Into<Spell> for CreateSpell {
             effect: self.effect,
             has_multiple_effects: self.has_multiple_effects,
             attack_save: self.attack_save,
-            spell_dice: self.spell_dice,
+            spell_dice: vec![],
         }
     }
 }
