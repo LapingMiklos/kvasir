@@ -7,50 +7,48 @@ use crate::prelude::*;
 pub async fn create(db: &Pool<Sqlite>, spell: PersistSpell) -> Result<()> {
     sqlx::query!(
         "INSERT INTO
-    Spells (
-        name,
-        icon_url,
-        description,
-        at_higher_level,
-        level,
-        school,
-        range,
-        area_size,
-        area_shape,
-        is_verbal,
-        is_somatic,
-        materials,
-        cast_time,
-        duration_type,
-        duration,
-        effect,
-        has_multiple_effects,
-        attack_save,
-        spell_dice
-    )
-VALUES
-    (
-        $1,
-        $2,
-        $3,
-        $4,
-        $5,
-        $6,
-        $7,
-        $8,
-        $9,
-        $10,
-        $11,
-        $12,
-        $13,
-        $14,
-        $15,
-        $16,
-        $17,
-        $18,
-        $19
-    )
-    ",
+        Spells (
+            name,
+            icon_url,
+            description,
+            at_higher_level,
+            level,
+            school,
+            range,
+            area_size,
+            area_shape,
+            is_verbal,
+            is_somatic,
+            materials,
+            cast_time,
+            duration,
+            effect,
+            has_multiple_effects,
+            attack_save,
+            spell_dice
+        )
+    VALUES
+        (
+            $1,
+            $2,
+            $3,
+            $4,
+            $5,
+            $6,
+            $7,
+            $8,
+            $9,
+            $10,
+            $11,
+            $12,
+            $13,
+            $14,
+            $15,
+            $16,
+            $17,
+            $18
+        )
+        ",
         spell.name,
         spell.icon_url,
         spell.description,
@@ -64,7 +62,6 @@ VALUES
         spell.is_somatic,
         spell.materials,
         spell.cast_time,
-        spell.duration_type,
         spell.duration,
         spell.effect,
         spell.has_multiple_effects,
@@ -90,15 +87,8 @@ pub async fn find_all(db: &Pool<Sqlite>) -> Result<Vec<PersistSpell>> {
 }
 
 pub async fn find_by_id(db: &Pool<Sqlite>, id: i64) -> Result<Option<PersistSpell>> {
-    let res = sqlx::query_as!(
-        PersistSpell,
-        "SELECT
-        *
-        FROM Spells WHERE id=$1",
-        id
-    )
-    .fetch_optional(db)
-    .await?;
-
+    let res = sqlx::query_as!(PersistSpell, "SELECT * FROM Spells WHERE id=$1", id)
+        .fetch_optional(db)
+        .await?;
     Ok(res)
 }
