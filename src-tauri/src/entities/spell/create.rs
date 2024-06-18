@@ -1,9 +1,7 @@
 use serde::Deserialize;
 use ts_rs::TS;
 
-use super::model::{
-    AreaEffect, AttackSave, CastTime, Duration, Range, Spell, SpellLevel, SpellSchool,
-};
+use super::model::{AreaEffect, AttackSave, CastTime, Duration, Range, Spell};
 
 #[derive(Debug, Clone, Deserialize, TS)]
 #[ts(export)]

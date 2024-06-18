@@ -21,6 +21,11 @@ import TextInput from "../components/util/form/TextInput";
 import NumericInput from "../components/util/form/NumericInput";
 import Selector from "../components/util/form/Selector";
 import Checkbox from "../components/util/form/Checkbox";
+import { createMutation, useQueryClient } from "@tanstack/solid-query";
+import { CreateSpell } from "../types/ts-rs/CreateSpell";
+import invokeCommand from "../commands/invokeCommand";
+import { PostSpell } from "../commands/spellCommands";
+import toCreateSpell from "../utils/mapping/toCreateSpell";
 
 export type SpellFormData = {
   name: string; // text -- req
@@ -51,6 +56,19 @@ export type SpellFormData = {
 };
 
 const SpellForm: Component = () => {
+  const queryClient = useQueryClient();
+  const createSpell = createMutation(() => ({
+    mutationFn: async (spell: CreateSpell) => {
+      await invokeCommand<PostSpell>("post_spell", { spell });
+    },
+    onError() {
+      // console.log(error);
+    },
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ["spells"] });
+    },
+  }));
+
   const form = createForm<SpellFormData>(() => ({
     defaultValues: {
       name: "",
@@ -69,8 +87,7 @@ const SpellForm: Component = () => {
       attackSaveType: "ranged",
     },
     onSubmit: ({ value }) => {
-      // eslint-disable-next-line no-console
-      console.log(value);
+      createSpell.mutate(toCreateSpell(value));
     },
   }));
 
