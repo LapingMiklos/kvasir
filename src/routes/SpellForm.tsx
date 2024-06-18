@@ -1,5 +1,6 @@
 import { Component, Show, createSignal } from "solid-js";
 import { createForm } from "@tanstack/solid-form";
+import { createMutation, useQueryClient } from "@tanstack/solid-query";
 import BackButton from "../components/util/BackButton";
 import {
   AREA_SHAPES,
@@ -21,7 +22,6 @@ import TextInput from "../components/util/form/TextInput";
 import NumericInput from "../components/util/form/NumericInput";
 import Selector from "../components/util/form/Selector";
 import Checkbox from "../components/util/form/Checkbox";
-import { createMutation, useQueryClient } from "@tanstack/solid-query";
 import { CreateSpell } from "../types/ts-rs/CreateSpell";
 import invokeCommand from "../commands/invokeCommand";
 import { PostSpell } from "../commands/spellCommands";
@@ -65,8 +65,8 @@ const SpellForm: Component = () => {
     onError() {
       // console.log(error);
     },
-    onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ["spells"] });
+    async onSuccess() {
+      await queryClient.invalidateQueries({ queryKey: ["spells"] });
     },
   }));
 

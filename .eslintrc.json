@@ -24,6 +24,8 @@
         "solid"
     ],
     "rules": {
+        "no-nested-ternary": "off",
+        "import/prefer-default-export": "off",
         "import/extensions": [
             "off",
             "ignorePackages",
