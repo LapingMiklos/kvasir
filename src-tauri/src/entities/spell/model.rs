@@ -155,20 +155,24 @@ pub struct AreaEffect {
 #[ts(export)]
 #[serde(rename_all = "camelCase")]
 pub enum Shape {
+    Cone,
     Cube,
     Cylinder,
     Line,
     Sphere,
+    Square,
     Custom(String),
 }
 
 impl Into<String> for Shape {
     fn into(self) -> String {
         match self {
+            Shape::Cone => "cone".to_string(),
             Shape::Cube => "cube".to_string(),
             Shape::Cylinder => "cylinder".to_string(),
             Shape::Line => "line".to_string(),
             Shape::Sphere => "sphere".to_string(),
+            Shape::Square => "square".to_string(),
             Shape::Custom(s) => s,
         }
     }
@@ -177,10 +181,12 @@ impl Into<String> for Shape {
 impl From<String> for Shape {
     fn from(s: String) -> Shape {
         match s.as_str() {
+            "cone" => Shape::Cone,
             "cube" => Shape::Cube,
             "cylinder" => Shape::Cylinder,
             "line" => Shape::Line,
             "sphere" => Shape::Sphere,
+            "square" => Shape::Square,
             _ => Shape::Custom(s),
         }
     }
