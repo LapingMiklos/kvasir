@@ -1,4 +1,4 @@
-import { Component, Show } from "solid-js";
+import { Component } from "solid-js";
 import { FormFieldProps } from "../../../types/field";
 
 type CheckboxProps = FormFieldProps & {
@@ -8,10 +8,9 @@ type CheckboxProps = FormFieldProps & {
 
 const Checkbox: Component<CheckboxProps> = (props) => {
   return (
-    <>
-      <Show when={props.label !== undefined}>
-        <label for={props.field().name}>{props.label}</label>
-      </Show>
+    <label for={props.field().name} class="container label">
+      {props.label}
+
       <input
         checked={props.value}
         id={props.field().name}
@@ -28,7 +27,8 @@ const Checkbox: Component<CheckboxProps> = (props) => {
           }
         }}
       />
-    </>
+      <span class="checkmark" />
+    </label>
   );
 };
 
