@@ -1,5 +1,6 @@
 import { Component, Show } from "solid-js";
 import { FormFieldProps } from "../../../types/field";
+import "../../../css/form/fields.css";
 
 type TextInputProps = FormFieldProps & {
   value: string;
@@ -10,9 +11,13 @@ const TextInput: Component<TextInputProps> = (props) => {
   return (
     <>
       <Show when={props.label !== undefined}>
-        <label for={props.field().name}>{props.label}</label>
+        <label class="label" for={props.field().name}>
+          {props.label}
+        </label>
       </Show>
       <input
+        placeholder={props.label ?? ""}
+        class="text-input"
         id={props.field().name}
         name={props.field().name}
         value={props.value}

@@ -1,0 +1,28 @@
+:root {
+    --field-background: #3f3f3f;
+    --text-color: #dbdbdb;
+}
+
+.text-input {
+    color: var(--text-color);
+    font-size: x-large;
+    border-width: 0;
+    border-style: solid;
+    border-radius: 5px;
+    padding-left: 3px;
+    height: 3rem;
+    width: 20rem;
+    background-color: var(--field-background);
+}
+
+.text-input:focus {
+    outline: var(--text-color) solid 1px;
+    background-color: #5f5f5f;
+}
+
+.label {
+    color: var(--text-color);
+    font-weight: bold;
+    font-size: larger;
+    font-style: italic;
+}

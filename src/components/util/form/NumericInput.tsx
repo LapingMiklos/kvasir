@@ -29,9 +29,12 @@ const NumericInput: Component<NumericInputProps> = (props) => {
   return (
     <>
       <Show when={props.label !== undefined}>
-        <label for={props.field().name}>{props.label}</label>
+        <label class="label" for={props.field().name}>
+          {props.label}
+        </label>
       </Show>
       <input
+        class="text-input"
         id={props.field().name}
         name={props.field().name}
         value={props.value}
