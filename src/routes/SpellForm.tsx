@@ -1,6 +1,7 @@
 import { Component, Show, createSignal } from "solid-js";
 import { createForm } from "@tanstack/solid-form";
 import { createMutation, useQueryClient } from "@tanstack/solid-query";
+import { useNavigate } from "@solidjs/router";
 import BackButton from "../components/util/BackButton";
 import {
   AREA_SHAPES,
@@ -29,7 +30,6 @@ import toCreateSpell from "../utils/mapping/toCreateSpell";
 import { notEmpty } from "../utils/form/validation";
 import "../css/form/SpellForm.css";
 import TextArea from "../components/util/form/TextArea";
-import { useNavigate } from "@solidjs/router";
 
 export type SpellFormData = {
   name: string; // text -- req
