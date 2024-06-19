@@ -26,6 +26,13 @@
     background-color: var(--field-hover);
 }
 
+.text-area {
+    height: 100%;
+    width: 40rem;
+    width: 100%;
+    resize: none;
+}
+
 .label {
     color: var(--text-color);
     font-weight: bold;

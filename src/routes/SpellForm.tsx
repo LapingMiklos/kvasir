@@ -28,6 +28,8 @@ import { PostSpell } from "../commands/spellCommands";
 import toCreateSpell from "../utils/mapping/toCreateSpell";
 import { notEmpty } from "../utils/form/validation";
 import "../css/form/SpellForm.css";
+import TextArea from "../components/util/form/TextArea";
+import { useNavigate } from "@solidjs/router";
 
 export type SpellFormData = {
   name: string; // text -- req
@@ -58,6 +60,7 @@ export type SpellFormData = {
 };
 
 const SpellForm: Component = () => {
+  const nav = useNavigate();
   const queryClient = useQueryClient();
   const createSpell = createMutation(() => ({
     mutationFn: async (spell: CreateSpell) => {
@@ -68,6 +71,7 @@ const SpellForm: Component = () => {
     },
     async onSuccess() {
       await queryClient.invalidateQueries({ queryKey: ["spells"] });
+      nav("/spells");
     },
   }));
 
@@ -122,7 +126,7 @@ const SpellForm: Component = () => {
       }}
     >
       {(field) => (
-        <TextInput
+        <TextArea
           value={field().state.value}
           field={field}
           label="Description"
@@ -621,7 +625,9 @@ const SpellForm: Component = () => {
     <div
       style={{ height: "100%", display: "flex", "flex-direction": "column" }}
     >
-      <BackButton />
+      <div>
+        <BackButton />
+      </div>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -675,13 +681,19 @@ const SpellForm: Component = () => {
           <DescriptionField />
         </div>
 
-        <form.Subscribe>
-          {(state) => (
-            <button type="submit" disabled={!state().canSubmit}>
-              {state().isSubmitting ? "..." : "Submit"}
-            </button>
-          )}
-        </form.Subscribe>
+        <div class="four-item-row">
+          <form.Subscribe>
+            {(state) => (
+              <button
+                class="submit"
+                type="submit"
+                disabled={!state().canSubmit}
+              >
+                {state().isSubmitting ? "Submiting..." : "Submit"}
+              </button>
+            )}
+          </form.Subscribe>
+        </div>
       </form>
     </div>
   );
