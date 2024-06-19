@@ -27,6 +27,7 @@ import invokeCommand from "../commands/invokeCommand";
 import { PostSpell } from "../commands/spellCommands";
 import toCreateSpell from "../utils/mapping/toCreateSpell";
 import { notEmpty } from "../utils/form/validation";
+import "../css/form/SpellForm.css";
 
 export type SpellFormData = {
   name: string; // text -- req
@@ -76,7 +77,7 @@ const SpellForm: Component = () => {
       description: "",
       isScaling: false,
       level: 4,
-      schoolName: "custom",
+      schoolName: "abjuration",
       rangeType: "user",
       area: false,
       isVerbal: false,
@@ -145,7 +146,7 @@ const SpellForm: Component = () => {
                 setVisible(!isChecked);
                 field().handleChange(!isChecked);
               }}
-              label="At higher level"
+              label="Scaling"
             />
           )}
         </form.Field>
@@ -159,7 +160,11 @@ const SpellForm: Component = () => {
             }}
           >
             {(field) => (
-              <TextInput field={field} value={field().state.value ?? ""} />
+              <TextInput
+                placeholder="Scaling"
+                field={field}
+                value={field().state.value ?? ""}
+              />
             )}
           </form.Field>
         </Show>
@@ -226,7 +231,7 @@ const SpellForm: Component = () => {
             {(field) => (
               <TextInput
                 field={field}
-                label="Custom spell school name"
+                label="Spell school name"
                 value={field().state.value ?? ""}
               />
             )}
@@ -242,7 +247,7 @@ const SpellForm: Component = () => {
     );
 
     return (
-      <>
+      <div class="two-item-row">
         <form.Field name="rangeType">
           {(field) => (
             <Selector
@@ -266,6 +271,7 @@ const SpellForm: Component = () => {
           <form.Field name="rangeDistance">
             {(field) => (
               <NumericInput
+                label="Distance (m)"
                 value={field().state.value ?? 0}
                 field={field}
                 minVal={0}
@@ -274,7 +280,7 @@ const SpellForm: Component = () => {
             )}
           </form.Field>
         </Show>
-      </>
+      </div>
     );
   };
 
@@ -411,7 +417,11 @@ const SpellForm: Component = () => {
             }}
           >
             {(field) => (
-              <TextInput field={field} value={field().state.value ?? ""} />
+              <TextInput
+                placeholder="Materials"
+                field={field}
+                value={field().state.value ?? ""}
+              />
             )}
           </form.Field>
         </Show>
@@ -425,7 +435,7 @@ const SpellForm: Component = () => {
     );
 
     return (
-      <>
+      <div class="two-item-row">
         <form.Field name="castTime">
           {(field) => (
             <Selector
@@ -455,11 +465,15 @@ const SpellForm: Component = () => {
             }}
           >
             {(field) => (
-              <TextInput field={field} value={field().state.value ?? ""} />
+              <TextInput
+                label="Custom cast time"
+                field={field}
+                value={field().state.value ?? ""}
+              />
             )}
           </form.Field>
         </Show>
-      </>
+      </div>
     );
   };
 
@@ -474,14 +488,14 @@ const SpellForm: Component = () => {
     );
 
     return (
-      <>
+      <div class="two-item-row">
         <form.Field name="durationType">
           {(field) => (
             <Selector
               field={field}
               options={DURATIONS}
               value={DURATIONS.indexOf(field().state.value)}
-              label="Duration"
+              label="Duration type"
               handleSelect={(i) => {
                 const value = DURATIONS[i];
                 field().handleChange(value);
@@ -507,6 +521,7 @@ const SpellForm: Component = () => {
           <form.Field name="duration">
             {(field) => (
               <NumericInput
+                label="Duration"
                 value={field().state.value ?? 0}
                 field={field}
                 minVal={0}
@@ -524,11 +539,15 @@ const SpellForm: Component = () => {
             }}
           >
             {(field) => (
-              <TextInput field={field} value={field().state.value ?? ""} />
+              <TextInput
+                label="Custom duration"
+                field={field}
+                value={field().state.value ?? ""}
+              />
             )}
           </form.Field>
         </Show>
-      </>
+      </div>
     );
   };
 
@@ -557,7 +576,7 @@ const SpellForm: Component = () => {
     );
 
     return (
-      <>
+      <div class="two-item-row">
         <form.Field name="attackSaveType">
           {(field) => (
             <Selector
@@ -582,6 +601,7 @@ const SpellForm: Component = () => {
           <form.Field name="saveStat">
             {(field) => (
               <Selector
+                label="Save stat"
                 field={field}
                 options={STATS}
                 value={STATS.indexOf(field().state.value ?? "STR")}
@@ -593,12 +613,14 @@ const SpellForm: Component = () => {
             )}
           </form.Field>
         </Show>
-      </>
+      </div>
     );
   };
 
   return (
-    <div>
+    <div
+      style={{ height: "100%", display: "flex", "flex-direction": "column" }}
+    >
       <BackButton />
       <form
         onSubmit={(e) => {
@@ -606,37 +628,60 @@ const SpellForm: Component = () => {
           e.stopPropagation();
           form.handleSubmit().catch(() => {});
         }}
+        class="form"
       >
-        <div
-          style={{
-            display: "flex",
-            "flex-direction": "column",
-            "align-items": "flex-start",
-          }}
-        >
+        <div class="four-item-row">
           <NameField />
-          <DescriptionField />
-          <AtHigherLevelField />
           <LevelField />
           <SchoolField />
-          <RangeField />
-          <AreaField />
-          <VerbalField />
-          <SomaticField />
-          <MaterialField />
-          <CastTimeField />
-          <DurationField />
-          <EffectField />
-          <AttackSaveField />
-
-          <form.Subscribe>
-            {(state) => (
-              <button type="submit" disabled={!state().canSubmit}>
-                {state().isSubmitting ? "..." : "Submit"}
-              </button>
-            )}
-          </form.Subscribe>
         </div>
+
+        <div class="two-item-row">
+          <RangeField />
+          <DurationField />
+        </div>
+
+        <div class="two-item-row">
+          <CastTimeField />
+          <AttackSaveField />
+        </div>
+
+        <div class="four-item-row">
+          <div>
+            <div style={{ "margin-block": "5px" }}>
+              <VerbalField />
+            </div>
+            <div style={{ "margin-block": "5px" }}>
+              <SomaticField />
+            </div>
+          </div>
+
+          <div>
+            <MaterialField />
+          </div>
+
+          <EffectField />
+        </div>
+
+        <div class="four-item-row">
+          <AreaField />
+        </div>
+
+        <div class="four-item-row">
+          <AtHigherLevelField />
+        </div>
+
+        <div class="description">
+          <DescriptionField />
+        </div>
+
+        <form.Subscribe>
+          {(state) => (
+            <button type="submit" disabled={!state().canSubmit}>
+              {state().isSubmitting ? "..." : "Submit"}
+            </button>
+          )}
+        </form.Subscribe>
       </form>
     </div>
   );

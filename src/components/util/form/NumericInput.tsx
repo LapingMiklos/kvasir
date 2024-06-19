@@ -27,7 +27,7 @@ const NumericInput: Component<NumericInputProps> = (props) => {
   };
 
   return (
-    <>
+    <div style={{ display: "flex", "flex-direction": "column" }}>
       <Show when={props.label !== undefined}>
         <label class="label" for={props.field().name}>
           {props.label}
@@ -49,7 +49,7 @@ const NumericInput: Component<NumericInputProps> = (props) => {
           }
         }}
       />
-    </>
+    </div>
   );
 };
 

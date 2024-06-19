@@ -3,20 +3,21 @@ import { FormFieldProps } from "../../../types/field";
 import "../../../css/form/fields.css";
 
 type TextInputProps = FormFieldProps & {
+  placeholder?: string;
   value: string;
   handleChange?: (value: string) => void;
 };
 
 const TextInput: Component<TextInputProps> = (props) => {
   return (
-    <>
+    <div style={{ display: "flex", "flex-direction": "column" }}>
       <Show when={props.label !== undefined}>
         <label class="label" for={props.field().name}>
           {props.label}
         </label>
       </Show>
       <input
-        placeholder={props.label ?? ""}
+        placeholder={props.placeholder ?? props.label ?? ""}
         class="text-input"
         id={props.field().name}
         name={props.field().name}
@@ -35,7 +36,7 @@ const TextInput: Component<TextInputProps> = (props) => {
           }
         }}
       />
-    </>
+    </div>
   );
 };
 

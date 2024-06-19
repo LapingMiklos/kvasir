@@ -10,7 +10,7 @@ type SelectorProps = FormFieldProps & {
 
 const Selector: Component<SelectorProps> = (props) => {
   return (
-    <>
+    <div style={{ display: "flex", "flex-direction": "column" }}>
       <Show when={props.label !== undefined}>
         <label class="label" for={props.field().name}>
           {props.label}
@@ -28,7 +28,7 @@ const Selector: Component<SelectorProps> = (props) => {
           {(option, i) => <option value={i()}>{option}</option>}
         </For>
       </select>
-    </>
+    </div>
   );
 };
 
