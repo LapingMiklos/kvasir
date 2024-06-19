@@ -1,5 +1,6 @@
 import { Component, For, Show } from "solid-js";
 import { FormFieldProps } from "../../../types/field";
+import "../../../css/form/fields.css";
 
 type SelectorProps = FormFieldProps & {
   value: number;
@@ -11,9 +12,12 @@ const Selector: Component<SelectorProps> = (props) => {
   return (
     <>
       <Show when={props.label !== undefined}>
-        <label for={props.field().name}>{props.label}</label>
+        <label class="label" for={props.field().name}>
+          {props.label}
+        </label>
       </Show>
       <select
+        class="text-input select"
         value={props.value}
         id={props.field().name}
         name={props.field().name}
