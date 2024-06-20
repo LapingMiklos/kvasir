@@ -1,8 +1,9 @@
 import { appWindow } from "@tauri-apps/api/window";
+
+import logo from "../assets/logo.svg";
+import windowClose from "../assets/window-close.svg";
 import windowMax from "../assets/window-max.svg";
 import windowMin from "../assets/window-min.svg";
-import windowClose from "../assets/window-close.svg";
-import logo from "../assets/logo.svg";
 import "../css/TitleBar.css";
 
 export default function TitleBar() {

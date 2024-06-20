@@ -1,6 +1,7 @@
 import { Component, For, Show } from "solid-js";
-import { FormFieldProps } from "../../../types/field";
+
 import "../../../css/form/fields.css";
+import { FormFieldProps } from "../../../types/field";
 
 type SelectorProps = FormFieldProps & {
   value: number;

@@ -1,8 +1,18 @@
-import { Component, Show, createSignal } from "solid-js";
+import { useNavigate } from "@solidjs/router";
 import { createForm } from "@tanstack/solid-form";
 import { createMutation, useQueryClient } from "@tanstack/solid-query";
-import { useNavigate } from "@solidjs/router";
+import { Component, Show, createSignal } from "solid-js";
+
+import invokeCommand from "../commands/invokeCommand";
+import { PostSpell } from "../commands/spellCommands";
 import BackButton from "../components/util/BackButton";
+import Checkbox from "../components/util/form/Checkbox";
+import NumericInput from "../components/util/form/NumericInput";
+import Selector from "../components/util/form/Selector";
+import TextArea from "../components/util/form/TextArea";
+import TextInput from "../components/util/form/TextInput";
+import "../css/form/SpellForm.css";
+import { CreateSpell } from "../types/ts-rs/CreateSpell";
 import {
   AREA_SHAPES,
   ATTACK_SAVE_TYPES,
@@ -19,17 +29,8 @@ import {
   SpellSchoolName,
   Stat,
 } from "../utils/constants";
-import TextInput from "../components/util/form/TextInput";
-import NumericInput from "../components/util/form/NumericInput";
-import Selector from "../components/util/form/Selector";
-import Checkbox from "../components/util/form/Checkbox";
-import { CreateSpell } from "../types/ts-rs/CreateSpell";
-import invokeCommand from "../commands/invokeCommand";
-import { PostSpell } from "../commands/spellCommands";
-import toCreateSpell from "../utils/mapping/toCreateSpell";
 import { notEmpty } from "../utils/form/validation";
-import "../css/form/SpellForm.css";
-import TextArea from "../components/util/form/TextArea";
+import toCreateSpell from "../utils/mapping/toCreateSpell";
 
 export type SpellFormData = {
   name: string; // text -- req

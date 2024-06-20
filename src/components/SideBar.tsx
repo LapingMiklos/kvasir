@@ -1,7 +1,8 @@
-import { Component } from "solid-js";
-import "../css/SideBar.css";
 import { A } from "@solidjs/router";
 import { VsBook, VsHome } from "solid-icons/vs";
+import { Component } from "solid-js";
+
+import "../css/SideBar.css";
 
 const SideBar: Component = () => {
   return (

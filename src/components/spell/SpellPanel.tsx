@@ -1,12 +1,13 @@
+import { useNavigate } from "@solidjs/router";
+import { createMutation, useQueryClient } from "@tanstack/solid-query";
 import { Component, Show } from "solid-js";
-import { SpellView } from "../../types/ts-rs/SpellView";
-import "../../css/spell/SpellPanel.css";
-import "../../css/DamageEffectTheme.css";
-import cssVar from "../../utils/css";
+
 import invokeCommand from "../../commands/invokeCommand";
 import { DeleteSpellById } from "../../commands/spellCommands";
-import { createMutation, useQueryClient } from "@tanstack/solid-query";
-import { useNavigate } from "@solidjs/router";
+import "../../css/DamageEffectTheme.css";
+import "../../css/spell/SpellPanel.css";
+import { SpellView } from "../../types/ts-rs/SpellView";
+import cssVar from "../../utils/css";
 import DeleteButton from "../util/DeleteButton";
 
 type SpellPanelProps = {

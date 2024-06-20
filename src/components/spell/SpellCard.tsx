@@ -1,8 +1,9 @@
-import { Component, For, Show } from "solid-js";
-import "../../css/spell/SpellCard.css";
-import "../../css/DamageEffectTheme.css";
-import { FaSolidDiceD20 } from "solid-icons/fa";
 import { useNavigate } from "@solidjs/router";
+import { FaSolidDiceD20 } from "solid-icons/fa";
+import { Component, For, Show } from "solid-js";
+
+import "../../css/DamageEffectTheme.css";
+import "../../css/spell/SpellCard.css";
 import { SpellView } from "../../types/ts-rs/SpellView.ts";
 import cssVar from "../../utils/css.ts";
 

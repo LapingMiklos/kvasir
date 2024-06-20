@@ -1,6 +1,7 @@
 import Dialog from "@corvu/dialog";
 import { VsTrash } from "solid-icons/vs";
 import { Component } from "solid-js";
+
 import "../../css/util/DeleteButton.css";
 
 type DeleteButtonProps = {

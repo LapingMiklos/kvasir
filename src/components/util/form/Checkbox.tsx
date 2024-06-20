@@ -1,4 +1,5 @@
 import { Component } from "solid-js";
+
 import { FormFieldProps } from "../../../types/field";
 
 type CheckboxProps = FormFieldProps & {

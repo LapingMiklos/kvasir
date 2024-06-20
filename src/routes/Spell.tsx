@@ -1,3 +1,5 @@
+import { useNavigate, useParams } from "@solidjs/router";
+import { createQuery } from "@tanstack/solid-query";
 import {
   Component,
   Match,
@@ -5,13 +7,12 @@ import {
   createComputed,
   createSignal,
 } from "solid-js";
+
 import "../App.css";
-import { createQuery } from "@tanstack/solid-query";
-import { useNavigate, useParams } from "@solidjs/router";
-import BackButton from "../components/util/BackButton";
 import invokeCommand from "../commands/invokeCommand";
 import { GetSpellById } from "../commands/spellCommands";
 import SpellPanel from "../components/spell/SpellPanel";
+import BackButton from "../components/util/BackButton";
 import { SpellView } from "../types/ts-rs/SpellView";
 
 const Spell: Component = () => {
