@@ -35,3 +35,10 @@ pub async fn post_spell(app: AppHandle<Wry>, spell: CreateSpell) -> CommandRespo
 
     ctx.spell_service().create(spell.into()).await.into()
 }
+
+#[tauri::command]
+pub async fn delete_spell(app: AppHandle<Wry>, id: i64) -> CommandResponse<()> {
+    let ctx = Context::from_app(&app);
+
+    ctx.spell_service().delete_by_id(id).await.into()
+}

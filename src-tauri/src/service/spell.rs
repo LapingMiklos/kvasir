@@ -30,4 +30,9 @@ impl SpellService {
         let spell = repo::spell::find_by_id(self.db.as_ref(), id).await?;
         spell.map(|s| s.try_into()).transpose()
     }
+
+    pub async fn delete_by_id(&self, id: i64) -> Result<()> {
+        repo::spell::delete_by_id(&self.db, id).await?;
+        Ok(())
+    }
 }

@@ -92,3 +92,10 @@ pub async fn find_by_id(db: &Pool<Sqlite>, id: i64) -> Result<Option<PersistSpel
         .await?;
     Ok(res)
 }
+
+pub async fn delete_by_id(db: &Pool<Sqlite>, id: i64) -> Result<()> {
+    sqlx::query!("DELETE FROM Spells WHERE id=$1", id)
+        .execute(db)
+        .await?;
+    Ok(())
+}
