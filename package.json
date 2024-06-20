@@ -13,6 +13,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@corvu/resizable": "^0.2.2",
     "@solidjs/router": "^0.13.5",
     "@tanstack/solid-form": "^0.21.0",
     "@tanstack/solid-query": "^5.45.0",
