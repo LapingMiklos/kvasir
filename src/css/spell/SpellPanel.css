@@ -1,0 +1,73 @@
+.spell-panel-container {
+    min-width: 50rem;
+    width: 66%;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.spell-panel-header {
+    font-size: xx-large;
+    font-weight: bold;
+    font-style: italic;
+    padding: 1rem;
+}
+
+.spell-panel-content {
+    border-block-width: 2px;
+    border-block-style: solid;
+    border-radius: 3px;
+
+    display: flex;
+    padding: 10px;
+}
+
+.spell-panel-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.spell-details-table {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    padding-bottom: 5px;
+}
+
+.spell-image {
+    margin: 5px;
+    border-radius: 10px;
+    width: 20rem;
+    height: 20rem;
+}
+
+.gray-bg {
+    background-color: #3f3f3f;
+}
+
+.spell-table-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-inline: 5px;
+}
+
+.spell-table-title {
+    font-size: larger;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    text-transform: capitalize;
+    font-weight: bolder;
+}
+
+.spell-table-content {
+    font-size: larger;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    text-transform: capitalize;
+}
+

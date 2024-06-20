@@ -210,7 +210,7 @@ impl Into<String> for CastTime {
     fn into(self) -> String {
         match self {
             CastTime::Action => "Action".to_string(),
-            CastTime::BonusAction => "BonusAction".to_string(),
+            CastTime::BonusAction => "Bonus Action".to_string(),
             CastTime::Reaction => "Reaction".to_string(),
             CastTime::Custom(s) => s,
         }
@@ -221,7 +221,7 @@ impl From<String> for CastTime {
     fn from(s: String) -> CastTime {
         match s.as_str() {
             "Action" => CastTime::Action,
-            "BonusAction" => CastTime::BonusAction,
+            "Bonus Action" => CastTime::BonusAction,
             "Reaction" => CastTime::Reaction,
             _ => CastTime::Custom(s),
         }
