@@ -3,6 +3,11 @@ import { SpellView } from "../../types/ts-rs/SpellView";
 import "../../css/spell/SpellPanel.css";
 import "../../css/DamageEffectTheme.css";
 import cssVar from "../../utils/css";
+import invokeCommand from "../../commands/invokeCommand";
+import { DeleteSpellById } from "../../commands/spellCommands";
+import { createMutation, useQueryClient } from "@tanstack/solid-query";
+import { useNavigate } from "@solidjs/router";
+import DeleteButton from "../util/DeleteButton";
 
 type SpellPanelProps = {
   spell: SpellView;
@@ -60,13 +65,28 @@ const SpellDetailsTable: Component<SpellPanelProps> = (props) => {
 };
 
 const SpellPanel: Component<SpellPanelProps> = (props) => {
+  const nav = useNavigate();
+  const queryClient = useQueryClient();
+  const deleteSpell = createMutation(() => ({
+    mutationFn: async () => {
+      await invokeCommand<DeleteSpellById>("delete_spell", {
+        id: Number(props.spell.id),
+      });
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["spells"] });
+      nav("/spells");
+    },
+  }));
+
   return (
     <div class="spell-panel-container">
       <div
         class="spell-panel-header"
         style={{ color: cssVar(props.spell.damageEffect) }}
       >
-        {props.spell.name}
+        <div class="spell-name">{props.spell.name}</div>
+        <DeleteButton onDelete={() => deleteSpell.mutate()} />
       </div>
       <div
         class="spell-panel-content"

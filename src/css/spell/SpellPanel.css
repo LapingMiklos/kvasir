@@ -7,10 +7,15 @@
 }
 
 .spell-panel-header {
+    display: flex;
+    padding: 1rem;
+}
+
+.spell-name {
+    flex: 1;
     font-size: xx-large;
     font-weight: bold;
     font-style: italic;
-    padding: 1rem;
 }
 
 .spell-panel-content {

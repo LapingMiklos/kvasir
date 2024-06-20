@@ -1,0 +1,53 @@
+.dialog-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #3f3f3f;
+    border-radius: 10px;
+    padding: 10px;
+
+}
+
+.dialog-overlay {
+    inset: 0;
+    position: fixed;
+    background-color: black;
+    opacity: 0.5;
+}
+
+.dialog-trigger {
+    background-color: inherit;
+    border: none;
+    margin: 0;
+    padding: 0;
+    color: white;
+    cursor: pointer;
+}
+
+.dialog-button {
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    color: #dbdbdb;
+    margin-inline: 4px;
+    cursor: pointer;
+    font-size: medium;
+    font-weight: bold;
+}
+
+.cancel-button {
+    background-color: #1f1f1f;
+}
+
+.delete-button {
+    background-color: red;
+}
+
+.cancel-button:hover {
+    background-color: #5f5f5f;
+}
+
+.delete-button:hover {
+    background-color: #5f5f5f;
+}

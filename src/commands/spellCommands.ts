@@ -15,3 +15,5 @@ export type GetSpellById = BaseCommand<
 >;
 
 export type PostSpell = BaseCommand<"post_spell", { spell: CreateSpell }, void>;
+
+export type DeleteSpellById = BaseCommand<"delete_spell", { id: number }, void>;
